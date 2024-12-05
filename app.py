@@ -4,12 +4,17 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("base.html", title="Home")
+    return render_template("index.html", title="Home")
 
+
+
+@app.route("/login")
+def login():
+    return render_template("login.html", title="login")
 
 
 @app.route("/contact")
-def hcontactome():
+def contact():
     return render_template("contact.html", title="Contact Us")
 
 
@@ -21,7 +26,7 @@ def order_summary():
 
 
 @app.route("/reservation")
-def homreservatione():
+def reservation():
     return render_template("reservation.html", title="Reservation")
 
 

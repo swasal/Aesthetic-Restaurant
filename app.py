@@ -9,20 +9,20 @@ def home():
 
 
 @app.route("/contact")
-def home():
+def hcontactome():
     return render_template("contact.html", title="Contact Us")
 
 
 
 @app.route("/order_summary")
-def home():
-    return render_template("contact.html", title="Order Summary")
+def order_summary():
+    return render_template("order_summary.html", title="Order Summary")
 
 
 
 @app.route("/reservation")
-def home():
-    return render_template("contact.html", title="Reservation")
+def homreservatione():
+    return render_template("reservation.html", title="Reservation")
 
 
 

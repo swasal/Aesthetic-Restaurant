@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary - Aesthetic Restaurant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .summary-section {
+            padding: 50px 0;
+        }
+        .total-cost {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Order Summary Section -->
+    <section class="summary-section">
+        <div class="container">
+            <h2 class="text-center mb-4">Order Summary</h2>
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Cake1</td>
+                        <td>2</td>
+                        <td>00BDT</td>
+                        <td>00BDT</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Cake2</td>
+                        <td>1</td>
+                        <td>00BDT</td>
+                        <td>00BDT</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Chocolate Lava Cake</td>
+                        <td>3</td>
+                        <td>00BDT</td>
+                        <td>00BDT</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-end">Subtotal</td>
+                        <td>00BDT</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-end">Tax (10%)</td>
+                        <td>00BDT</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td colspan="4" class="text-end total-cost">Total</td>
+                        <td class="total-cost">00BDT</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="text-center mt-4">
+                <a href="payment.html" class="btn btn-success btn-lg">Proceed to Payment</a>
+                <a href="menu.html" class="btn btn-secondary btn-lg">Modify Order</a>
+            </div>
+        </div>
+    </section>

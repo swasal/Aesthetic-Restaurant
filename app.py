@@ -8,6 +8,24 @@ def home():
 
 
 
+@app.route("/contact")
+def home():
+    return render_template("contact.html", title="Contact Us")
+
+
+
+@app.route("/order_summary")
+def home():
+    return render_template("contact.html", title="Order Summary")
+
+
+
+@app.route("/reservation")
+def home():
+    return render_template("contact.html", title="Reservation")
+
+
+
 @app.route('/menu')
 def menu():
     # Get champion data based on champion_id

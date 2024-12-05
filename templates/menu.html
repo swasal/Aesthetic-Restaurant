@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block searchbar %}
+    <div class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search our dishes" list="menudata" id="searchbar" aria-label="Search">
+        <datalist id="menudata">
+            {% for i in name %}
+            <option value="{{ i }}">
+            {% endfor %}
+          </datalist>
+        <button class="btn btn-outline-light" onclick="champsearch()">Search</button>
+    </div>
+
+
+
+
+    <script type="text/javascript">
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+
+
+        function champsearch(){
+            var input = document.getElementById("searchbar").value;
+            input=capitalize(input)
+            window.location = "#" + input;
+            document.getElementById("searchbar").value="";
+
+        }
+
+        const searchbar = document.getElementById('searchbar');
+        searchbar.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                champsearch()
+            }
+        });
+    </script>
+{% endblock %}
+
+
+
+
+{% block content %}
+    <h3 class="text-light">
+        <small class="text-light text-opacity-25">Archive</small>
+        Champion
+    </h3>
+
+    <!-- Champion list cards -->
+    <div class="container">
+        <div class="row row-cols-2 row-cols-lg-3 ">
+            {% for i in menu %}
+            <a href="{{ url_for('menu', item=i[0]) }}">
+                <div class="col" id="{{ i[0] }}">
+                    <div class="p-3 border-0">
+                        <div class="card mb-3 bg-dark bg-opacity-50 text-light" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/Akali_1.jpg"  class="img-fluid rounded-start" alt="Image of {{ i[1] }}">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <!-- Use champ_data['name'] here -->
+                                        <h4 class="card-title">{{ i[1] }}</h4>
+                                        <p class="card-text text-light text-opacity-75">{{ i[2]|title }}</p>
+                                        <p class="card-text text-light"><small class="text-light text-opacity-50">{{ i[3] }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>  
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

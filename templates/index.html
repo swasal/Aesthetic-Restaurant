@@ -1,20 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="hero">
-    <h1>Welcome to Aesthetic Restaurant</h1>
+<!-- Hero Section Container -->
+<div class="container">
+    <h2 class="text-center mb-4">Welcome to Our Restaurant</h2>
+    <div class="hero">
+        <p class="text-center">Delicious food and cozy ambiance</p>
+        <a href="#menu" class="btn btn-secondary btn-lg d-block mx-auto" style="max-width: 200px;">Explore Menu</a>
+    </div>
 </div>
 
-<div class="content">
-    <section id="menu">
-        <h2>Our Menu</h2>
-        <p>Explore our diverse range of dishes, crafted with the freshest ingredients.</p>
-        <a href="menu.html">View Menu</a>
-    </section>
-    <section id="offers">
-        <h2>Special Offers</h2>
-        <p>Don't miss our exclusive discounts and offers. Stay tuned!</p>
-    </section>
-</div>
-    
+
 {% endblock %}

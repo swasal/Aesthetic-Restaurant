@@ -3,61 +3,18 @@
 {% block content %}
 
         <div class="container">
-            <h2 class="text-center mb-4">Order Summary</h2>
 
-                <table class="table table-dark table-borderless">
+                        <div class="row row-cols-lg-3 ">
+                            <div class="card">
+                                <h5 class="card-header">order date</h5>
+                                <div class="card-body">
+                                <h5 class="card-title">order id</h5>
+                                <p class="card-text">list of items bought.</p>
+                                <a href="#" class="btn btn-secondary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <th>#</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Cake1</td>
-                        <td>2</td>
-                        <td>00BDT</td>
-                        <td>00BDT</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Cake2</td>
-                        <td>1</td>
-                        <td>00BDT</td>
-                        <td>00BDT</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Chocolate Lava Cake</td>
-                        <td>3</td>
-                        <td>00BDT</td>
-                        <td>00BDT</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" class="text-end">Subtotal</td>
-                        <td>00BDT</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="text-end">Tax (10%)</td>
-                        <td>00BDT</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="text-end total-cost">Total</td>
-                        <td class="total-cost">00BDT</td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <div class="text-center mt-4">
-                <a href="payment.html" class="btn btn-success btn-lg">Proceed to Payment</a>
-                <a href="menu.html" class="btn btn-secondary btn-lg">Modify Order</a>
-            </div>
-        </div>
         
 {% endblock %}

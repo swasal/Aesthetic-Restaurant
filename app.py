@@ -10,7 +10,14 @@ def home():
 
 @app.route("/login")
 def login():
-    return render_template("login.html", title="login")
+    return render_template("login.html", title="Login")
+
+
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html", title="Profile")
+
 
 
 @app.route("/contact")

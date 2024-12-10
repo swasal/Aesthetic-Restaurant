@@ -43,7 +43,15 @@ def menu():
     return render_template('menu.html', title="Menu", menu=menu)
 
 
-
+@app.route('/ordersummary')
+def ordersummary():
+    # Get champion data based on champion_id
+    ordersummary = [
+        ['order date','order id', ['Cake', 'A vanilla cake']],
+        ['order date','order id', ['Cake', 'A vanilla cake']],
+    ]
+    
+    return render_template('order_summary.html', title="Order Summary", ordersummary=ordersummary)
 
 
 

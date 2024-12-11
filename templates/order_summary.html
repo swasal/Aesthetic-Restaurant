@@ -1,20 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-        <div class="container">
-
-                        <div class="row row-cols-lg-3 ">
-                            <div class="card">
-                                <h5 class="card-header">order date</h5>
+<div class="container">
+    <div class="row row-cols-2 row-cols-lg-3 ">
+        {% for i in ordersummary %}
+        <a href="{{ url_for('menu', item=i[0]) }}">
+            <div class="col" id="{{ i[0] }}">
+                <div class="p-3 border-0">
+                    <div class="card mb-3 bg-dark bg-opacity-50 text-light" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/Akali_1.jpg"  class="img-fluid rounded-start" alt="Image of {{ i[1] }}">
+                            </div>
+                            <div class="col-md-8">
                                 <div class="card-body">
-                                <h5 class="card-title">order id</h5>
-                                <p class="card-text">list of items bought.</p>
-                                <a href="#" class="btn btn-secondary">Go somewhere</a>
+                                    <!-- Use champ_data['name'] here -->
+                                    <h4 class="card-title">{{ i[1] }}</h4>
+                                    <p class="card-text text-light text-opacity-75">{{ i[0] }}</p>
+                                    <p class="card-text text-light"><small class="text-light text-opacity-50">Items bought
+                                        
+                                            <ul>
+                                                {% for j in i[2] %}
+                                                <li>{{ j }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        
+                                    </small></p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                </div>
+            </div>
+        </a>  
+        {% endfor %}
+    </div>
+</div>
+       
         
 {% endblock %}

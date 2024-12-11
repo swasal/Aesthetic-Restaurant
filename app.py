@@ -23,9 +23,15 @@ def contact():
 
 
 
-@app.route("/order_summary")
-def order_summary():
-    return render_template("order_summary.html", title="Order Summary")
+@app.route('/ordersummary')
+def ordersummary():
+    # Get champion data based on champion_id
+    ordersummary = [
+        ['order date','order id', ['Cake', 'A vanilla cake']],
+        ['order date','order id', ['Cake', 'A vanilla cake']],
+    ]
+    
+    return render_template('order_summary.html', title="Order Summary", ordersummary=ordersummary)
 
 
 

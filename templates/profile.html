@@ -34,8 +34,8 @@
 
                 <!-- Name -->
                 <div class="col-12">
-                    <label for="inputAddress" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="Name" placeholder="Adolf Hitler">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Adolf Hitler" readonly>
                 </div>
 
                 <!-- Email -->
@@ -43,56 +43,56 @@
                   <label for="inputEmail4" class="form-label">Email</label>
                   <input type="email" class="form-control" id="inputEmail4" placeholder="hitler@gmail.com" readonly>
                 </div>
-
+                <!-- Phone -->
                 <div class="col-md-6">
-                  <label for="inputPassword4" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="inputPassword4">
+                  <label for="inputPhoneNo" class="form-label">Phone No</label>
+                  <input type="password" class="form-control" id="inputPhoneNo" placeholder="01111111111" readonly>
                 </div>
-
+                <!-- Address -->
                 <div class="col-12">
                   <label for="inputAddress" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
                 </div>
 
                 <div class="col-12">
                   <label for="inputAddress2" class="form-label">Address 2</label>
-                  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" readonly>
                 </div>
-
+                
+                <!-- BirthDate -->
                 <div class="col-md-6">
-                  <label for="inputCity" class="form-label">City</label>
-                  <input type="text" class="form-control" id="inputCity">
+                  <label for="inputDateofBirth" class="form-label">Date of Birth</label>
+                  <input type="text" class="form-control" id="inputDateofBirth" placeholder="DD/MM/YYYY" readonly>
                 </div>
 
-                <div class="col-md-4">
-                  <label for="inputState" class="form-label">State</label>
-                  <select id="inputState" class="form-select">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                  </select>
-                </div>
-
-                <div class="col-md-2">
-                  <label for="inputZip" class="form-label">Zip</label>
-                  <input type="text" class="form-control" id="inputZip">
-                </div>
-
+                <!-- Allergens -->
                 <div class="col-12">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck">
-                    <label class="form-check-label" for="gridCheck">
-                      Check me out
-                    </label>
-                  </div>
+                  <label for="inputAllergens" class="form-label">Allergens</label>
+                  <textarea class="form-control" id="inputAllergens" placeholder="List of allergens" rows="2" readonly></textarea>
                 </div>
-
+  
+                <!-- Height -->
+                <div class="col-md-6">
+                  <label for="inputHeight" class="form-label">Height (cm)</label>
+                  <input type="number" class="form-control" id="inputHeight" placeholder="e.g., 175" readonly>
+                </div>
+  
+                <!-- Weight -->
+                <div class="col-md-6">
+                  <label for="inputWeight" class="form-label">Weight (kg)</label>
+                  <input type="number" class="form-control" id="inputWeight" placeholder="e.g., 70" readonly>
+                </div>
+                <!-- Preferred Ingredients -->
                 <div class="col-12">
-                  <button type="button" id="btn_edit" class="btn btn-secondary">Edit</button>
-                  <button type="button" id="btn_save" class="btn btn-secondary" hidden >Save</button>
+                  <label for="inputPreferredIngredients" class="form-label">Preferred Ingredients</label>
+                  <textarea class="form-control" id="inputPreferredIngredients" placeholder="List of preferred ingredients" rows="2" readonly></textarea>
                 </div>
-
-            </form>
-
+  
+                <!-- Level of Masala -->
+                <div class="col-md-6">
+                   <label for="inputMasalaLevel" class="form-label">Level of Masala</label>
+                   <input type="number" class="form-control" id="inputMasalaLevel" placeholder="e.g., 5" readonly>
+                </div>
             
         </div>
     </div>

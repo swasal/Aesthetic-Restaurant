@@ -10,6 +10,7 @@ def home():
 
 @app.route("/login")
 def login():
+    # ahnaf pls do this
     return render_template("login.html", title="login")
 
 

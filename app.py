@@ -13,8 +13,8 @@ def home():
 def login():
     return render_template("login.html", title="Login")
 
-@app.route("/signin", methods=["GET", "POST"])
-def signin():
+@app.route("/register", methods=["GET", "POST"])
+def register():
     if request.method == 'POST':
         # Fetch form data
         username = request.form.get('username')
@@ -44,8 +44,8 @@ def signin():
         # Redirect to login page after successful profile creation
         return redirect(url_for('login'))
 
-    # Render the signin form
-    return render_template('signin.html')  # Display the sign-in form
+    # Render the register form
+    return render_template('register.html')  # Display the sign-in form
 
 @app.route('/profile-success')
 def profile_success():

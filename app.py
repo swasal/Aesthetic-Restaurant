@@ -1,9 +1,30 @@
+
+#import
 from flask import Flask, render_template, request, redirect, url_for
 
+
+
+
+#global
+
+users = [] # In-memory storage for user data
+
+
+
+#code
+
+
+# initiating app.py
 app = Flask(__name__)
 
-# In-memory storage for user data
-users = []
+
+
+
+
+
+
+#routing traffic
+
 
 @app.route("/")
 def home():
@@ -66,14 +87,14 @@ def register():
     # Render the register form
     return render_template('register.html')  # Display the sign-in form
 
-@app.route('/profile-success')
-def profile_success():
-    return "Profile created successfully!"
 
-@app.route('/users')
-def list_users():
-    # Render list of users
-    return render_template('users.html', users=users)
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html", title="Profile")
+
+
+
 
 @app.route("/contact")
 def contact():

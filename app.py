@@ -9,9 +9,27 @@ users = []
 def home():
     return render_template("index.html", title="Home")
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html", title="Login")
+    if request.method == 'POST':
+        # Fetch form data
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+
+        # Save user data (in-memory storage for demonstration)
+        new_user = {
+            'username': username,
+            'password': password,
+        }
+        users.append(new_user)
+        # print(new_user)
+
+        # Redirect to login page after successful profile creation
+        return redirect(url_for('login'))
+
+    # Render the login form
+    return render_template('login.html')
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

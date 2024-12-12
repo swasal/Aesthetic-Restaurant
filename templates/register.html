@@ -3,45 +3,45 @@
 {% block content %}
 <div class="container d-flex justify-content-center py-5">
     <div class="w-75" style="max-width: 600px;">
-        <form>
+        <form action="{{ url_for('register') }}" method="POST">
             <h2 class="text-center mb-4">Create Your Profile</h2>
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>
-                <input type="text" id="username" class="form-control" placeholder="Enter your username" required>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email Address:</label>
-                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password:</label>
-                <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Create a password" required>
             </div>
             <div class="mb-3">
                 <label for="confirm-password" class="form-label">Confirm Password:</label>
-                <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Confirm your password" required>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone Number:</label>
-                <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter your phone number" required>
             </div>
             <div class="mb-3">
                 <label for="dob" class="form-label">Date of Birth:</label>
-                <input type="date" id="dob" class="form-control" required>
+                <input type="date" id="dob" name="dob" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="height" class="form-label">Height (m):</label>
-                <input type="number" id="height" class="form-control" placeholder="Enter your height in metre" required>
+                <label for="height" class="form-label">Height (cm):</label>
+                <input type="number" id="height" name="height" class="form-control" placeholder="Enter your height in centimetre" required>
             </div>
             <div class="mb-3">
                 <label for="weight" class="form-label">Weight (kg):</label>
-                <input type="number" id="weight" class="form-control" placeholder="Enter your weight in kg" required>
+                <input type="number" id="weight" name="weight" class="form-control" placeholder="Enter your weight in kg" required>
             </div>
 
             <button type="submit" class="btn btn-secondary w-100">Create Profile</button>
         </form>
         <div class="text-center mt-3">
-            <p>Already have an account? <a href="#" class="text-decoration-none">Sign In</a></p>
+            <p>Already have an account? <a href="{{ url_for('login') }}" class="text-decoration-none">Sign In</a></p>
         </div>
     </div>
 </div>

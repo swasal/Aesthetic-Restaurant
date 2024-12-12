@@ -58,6 +58,7 @@ def register():
             'weight': weight,
         }
         users.append(new_user)
+        # print(new_user)
 
         # Redirect to login page after successful profile creation
         return redirect(url_for('login'))

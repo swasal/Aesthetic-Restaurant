@@ -1,6 +1,22 @@
+#import
 from flask import Flask, render_template
 
+
+
+
+#global
+
+
+
+#code
+
+
+# initiating app.py
 app = Flask(__name__)
+
+
+
+#routing traffic
 
 @app.route("/")
 def home():

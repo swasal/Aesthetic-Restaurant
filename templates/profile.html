@@ -40,25 +40,22 @@
 
                 <!-- Email -->
                 <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="inputEmail4" placeholder="hitler@gmail.com" readonly>
+                  <label for="inputEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="hitler@gmail.com" readonly>
                 </div>
+
                 <!-- Phone -->
                 <div class="col-md-6">
                   <label for="inputPhoneNo" class="form-label">Phone No</label>
                   <input type="password" class="form-control" id="inputPhoneNo" placeholder="01111111111" readonly>
                 </div>
+
                 <!-- Address -->
                 <div class="col-12">
                   <label for="inputAddress" class="form-label">Address</label>
                   <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
                 </div>
 
-                <div class="col-12">
-                  <label for="inputAddress2" class="form-label">Address 2</label>
-                  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" readonly>
-                </div>
-                
                 <!-- BirthDate -->
                 <div class="col-md-6">
                   <label for="inputDateofBirth" class="form-label">Date of Birth</label>
@@ -82,6 +79,7 @@
                   <label for="inputWeight" class="form-label">Weight (kg)</label>
                   <input type="number" class="form-control" id="inputWeight" placeholder="e.g., 70" readonly>
                 </div>
+
                 <!-- Preferred Ingredients -->
                 <div class="col-12">
                   <label for="inputPreferredIngredients" class="form-label">Preferred Ingredients</label>
@@ -94,12 +92,82 @@
                    <input type="number" class="form-control" id="inputMasalaLevel" placeholder="e.g., 5" readonly>
                 </div>
             
+                <br>
+
+                <!-- Buttons -->
+                <div class="col-12">
+                  <button type="button" id="btn_edit" class="btn btn-outline-light">Edit</button>
+                  <button type="button" id="btn_save" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" hidden>Save</button>
+                </div>
+                <br>
         </div>
     </div>
 </div>
 
 
+<!-- modal popp -->
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="static/script/script.js"></script>
+
+
 <script>
+  // list of all input fields
+  let elem=['inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel'];
+
+  // Button edit
+  const btn_edit = document.getElementById("btn_edit");
+  const btn_save = document.getElementById("btn_save");
+
+  btn_edit.addEventListener("click", function(){clickbtnedit()});
+  btn_save.addEventListener("click", function(){clickbtnsave()});
+
+
+  function clickbtnedit(){
+    enabletxtmultiple('inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel')
+    hide_unhide('btn_save')
+  }
+
+
+  function clickbtnsave(){
+    disbletxtmultiple('inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel')
+    // hide_unhide('btn_save')
+  }
 
 </script>
 

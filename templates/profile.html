@@ -2,6 +2,15 @@
 
 {% block content %}
 
+<nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item fs-5"><a class="text-light text-opacity-50" href="#">User</a></li>
+    <li class="breadcrumb-item active fs-5 text-light" aria-current="page">Profile</li>
+  </ol>
+</nav>
+
+<br>
+
 <!-- Main body for profile -->
 <div class="container">
     <div class="row">
@@ -12,17 +21,100 @@
 
 
             <!-- profile picture -->
-            <img src="..." class="object-fit-lg-contain border rounded" alt="...">
-            image lsjhfksjfhkjfhlkjahfkjxhnvdfjhd
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Morgana.png" class="object-fit-lg-contain border rounded" alt="Placeholder image square">
+            <p>this is a text</p>
         </div>
 
 
         <!-- Right half of the page -->
         <div class="col-10">
-            <!-- use for main info like email and stuff that can be edited -->
-            Right part of the <br> page
+
+            <!-- Profile information -->
+            <form class="row g-3">
+
+                <!-- Name -->
+                <div class="col-12">
+                    <label for="inputAddress" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="Name" placeholder="Adolf Hitler">
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="inputEmail4" placeholder="hitler@gmail.com" readonly>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputPassword4" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="inputPassword4">
+                </div>
+
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                </div>
+
+                <div class="col-12">
+                  <label for="inputAddress2" class="form-label">Address 2</label>
+                  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputCity" class="form-label">City</label>
+                  <input type="text" class="form-control" id="inputCity">
+                </div>
+
+                <div class="col-md-4">
+                  <label for="inputState" class="form-label">State</label>
+                  <select id="inputState" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                  </select>
+                </div>
+
+                <div class="col-md-2">
+                  <label for="inputZip" class="form-label">Zip</label>
+                  <input type="text" class="form-control" id="inputZip">
+                </div>
+
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <button type="button" id="btn_edit" class="btn btn-secondary">Edit</button>
+                  <button type="button" id="btn_save" class="btn btn-secondary" hidden >Save</button>
+                </div>
+
+            </form>
+
+            
         </div>
     </div>
 </div>
+
+
+<script>
+
+</script>
+
+
+
+{% endblock %}
+
+
+
+{% block script %}
+
+
+
+
+
+
 
 {% endblock %}

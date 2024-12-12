@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item fs-5"><a class="text-light text-opacity-50" href="#">User</a></li>
+    <li class="breadcrumb-item active fs-5 text-light" aria-current="page">Profile</li>
+  </ol>
+</nav>
+
+<br>
+
+<!-- Main body for profile -->
+<div class="container">
+    <div class="row">
+      
+        <!-- Left part of the page -->
+        <div class="col-2">
+            <!-- USe for profile picture email and base info -->
+
+
+            <!-- profile picture -->
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Morgana.png" class="object-fit-lg-contain border rounded" alt="Placeholder image square">
+            <p>this is a text</p>
+        </div>
+
+
+        <!-- Right half of the page -->
+        <div class="col-10">
+
+            <!-- Profile information -->
+            <form class="row g-3">
+
+                <!-- Name -->
+                <div class="col-12">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Adolf Hitler" readonly>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                  <label for="inputEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="hitler@gmail.com" readonly>
+                </div>
+
+                <!-- Phone -->
+                <div class="col-md-6">
+                  <label for="inputPhoneNo" class="form-label">Phone No</label>
+                  <input type="password" class="form-control" id="inputPhoneNo" placeholder="01111111111" readonly>
+                </div>
+
+                <!-- Address -->
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
+                </div>
+
+                <!-- BirthDate -->
+                <div class="col-md-6">
+                  <label for="inputDateofBirth" class="form-label">Date of Birth</label>
+                  <input type="text" class="form-control" id="inputDateofBirth" placeholder="DD/MM/YYYY" readonly>
+                </div>
+
+                <!-- Allergens -->
+                <div class="col-12">
+                  <label for="inputAllergens" class="form-label">Allergens</label>
+                  <textarea class="form-control" id="inputAllergens" placeholder="List of allergens" rows="2" readonly></textarea>
+                </div>
+  
+                <!-- Height -->
+                <div class="col-md-6">
+                  <label for="inputHeight" class="form-label">Height (cm)</label>
+                  <input type="number" class="form-control" id="inputHeight" placeholder="e.g., 175" readonly>
+                </div>
+  
+                <!-- Weight -->
+                <div class="col-md-6">
+                  <label for="inputWeight" class="form-label">Weight (kg)</label>
+                  <input type="number" class="form-control" id="inputWeight" placeholder="e.g., 70" readonly>
+                </div>
+
+                <!-- Preferred Ingredients -->
+                <div class="col-12">
+                  <label for="inputPreferredIngredients" class="form-label">Preferred Ingredients</label>
+                  <textarea class="form-control" id="inputPreferredIngredients" placeholder="List of preferred ingredients" rows="2" readonly></textarea>
+                </div>
+  
+                <!-- Level of Masala -->
+                <div class="col-md-6">
+                   <label for="inputMasalaLevel" class="form-label">Level of Masala</label>
+                   <input type="number" class="form-control" id="inputMasalaLevel" placeholder="e.g., 5" readonly>
+                </div>
+            
+                <br>
+
+                <!-- Buttons -->
+                <div class="col-12">
+                  <button type="button" id="btn_edit" class="btn btn-outline-light">Edit</button>
+                  <button type="button" id="btn_save" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" hidden>Save</button>
+                </div>
+                <br>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal popp -->
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Do you want to save the changes?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-outline-success">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="static/script/script.js"></script>
+
+
+<script>
+  // list of all input fields
+  let elem=['inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel'];
+
+  // Button edit
+  const btn_edit = document.getElementById("btn_edit");
+  const btn_save = document.getElementById("btn_save");
+
+  btn_edit.addEventListener("click", function(){clickbtnedit()});
+  btn_save.addEventListener("click", function(){clickbtnsave()});
+
+
+  function clickbtnedit(){
+    enabletxtmultiple('inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel')
+    hide_unhide('btn_save')
+  }
+
+
+  function clickbtnsave(){
+    disbletxtmultiple('inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel')
+    // hide_unhide('btn_save')
+  }
+
+</script>
+
+
+
+{% endblock %}
+
+
+
+{% block script %}
+
+
+
+
+
+
+
+{% endblock %}

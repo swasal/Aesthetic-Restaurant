@@ -1,6 +1,22 @@
+#import
 from flask import Flask, render_template
 
+
+
+
+#global
+
+
+
+#code
+
+
+# initiating app.py
 app = Flask(__name__)
+
+
+
+#routing traffic
 
 @app.route("/")
 def home():
@@ -10,7 +26,14 @@ def home():
 
 @app.route("/login")
 def login():
-    return render_template("login.html", title="login")
+    return render_template("login.html", title="Login")
+
+
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html", title="Profile")
+
 
 @app.route("/signin")
 def signin():

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a class="text-light text-opacity-50" href="#" style="font-size: 1.5rem;">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active text-light" aria-current="page" style="font-size: 1.5rem;">
+            Admin
+          </li>
+        </ol>
+      </nav>
+      
+
+      <div class="mt-5">
+        <h4 class="text-light">Search Users</h4>
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" class="d-flex mb-3">
+            <input type="hidden" name="action" value="search">
+            <input type="text" class="form-control me-2" id="searchUserId" name="user_id" placeholder="Enter User ID" required>
+            <button type="submit" class="btn btn-outline-light">Search</button>
+        </form>
+        
+        {% if search_results and user_type == 'staff' %}
+            <div class="mt-4">
+                <h5 class="text-light">Staff Search Results</h5>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Birthdate</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Job Title</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Hired Date</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Slots</th>
+                            <th scope="col">Shift Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for staff in search_results %}
+                        <tr>
+                            <td>{{ staff.employee_id }}</td>
+                            <td>{{ staff.name }}</td>
+                            <td>{{ staff.birthdate }}</td>
+                            <td>{{ staff.phone }}</td>
+                            <td>{{ staff.email }}</td>
+                            <td>{{ staff.job_title }}</td>
+                            <td>{{ staff.department }}</td>
+                            <td>{{ staff.hired }}</td>
+                            <td>{{ staff.address }}</td>
+                            <td>{{ staff.slots }}</td>
+                            <td>{{ staff.shift_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% elif search_results and user_type == 'customer' %}
+            <div class="mt-4">
+                <h5 class="text-light">Customer Search Results</h5>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in search_results %}
+                        <tr>
+                            <td>{{ customer.customer_id }}</td>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+    <div class="mt-4">
+        <h4 class="text-light">Add New Menu Item</h4>
+        <form method="POST" action="{{ url_for('admin_dashboard') }}">
+            <input type="hidden" name="action" value="add">
+            <div class="mb-3">
+                <label for="name" class="form-label text-light">Item Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter item name" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label text-light">Description</label>
+                <input type="text" class="form-control" id="description" name="description" placeholder="Enter item description" required>
+            </div>
+            <div class="mb-3">
+                <label for="details" class="form-label text-light">Details</label>
+                <textarea class="form-control" id="details" name="details" placeholder="Enter item details" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-light">Add Item</button>
+        </form>
+    </div>
+
+    <div class="mt-5">
+        <h4 class="text-light">Existing Menu Items</h4>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in menu %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin_dashboard') }}" style="display:inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id" value="{{ item[0] }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

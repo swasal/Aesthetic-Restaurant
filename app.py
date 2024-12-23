@@ -122,6 +122,32 @@ def menu():
         ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
     ]
     return render_template('menu.html', title="Menu", menu=menu)
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
+def admin_dashboard():
+    # Local menu list
+    menu = [
+        ['1', 'Cake', 'A vanilla cake', "A delicious vanilla-flavored cake with frosting"],
+        ['2', 'Pie', 'An apple pie', "A freshly baked apple pie with a flaky crust"],
+        ['3', 'Cookie', 'Chocolate chip cookies', "Crunchy chocolate chip cookies with a hint of vanilla"],
+    ]
+    
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'add':
+            # Add a new menu item
+            item_id = str(len(menu) + 1)
+            name = request.form.get('name')
+            description = request.form.get('description')
+            details = request.form.get('details')
+            if name and description and details:
+                menu.append([item_id, name, description, details])
+        elif action == 'delete':
+            # Delete an item
+            item_id = request.form.get('id')
+            menu = [item for item in menu if item[0] != item_id]
+
+    return render_template('admin_dashboard.html', menu=menu)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

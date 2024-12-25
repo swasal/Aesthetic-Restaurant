@@ -149,5 +149,46 @@ def admin_dashboard():
     return render_template('admin_dashboard.html', menu=menu)
 
 
+
+# Sample reviews data
+reviews = [
+    ['Jean Tang', 'https://via.placeholder.com/50', '可以搭地鐵再轉搭免費公車上山，很方便。看夕陽，看洛杉磯夜景的好地方。', '2 days ago'],
+    ['محمد جواد حبیبی', 'https://via.placeholder.com/50', 'من بیمه عمر خریدم و بعد از 1 سال واقعا احساس ثروتمندی میکنم', '2 days ago'],
+    ['Daniel White', 'https://via.placeholder.com/50', 'Great views of the surrounding area and interesting exhibits. Highly recommend!', '4 days ago'],
+    ['Breanne F', 'https://via.placeholder.com/50', 'Easy hike and not too busy on weekend evenings during early December!', '4 days ago'],
+    ['Hamza Amin', 'https://via.placeholder.com/50', 'Excellent quality of product. Tried honey nuts and they are amazing. Highly recommend.', '5 days ago'],
+    ['Ali Muhammad', 'https://via.placeholder.com/50', 'Great customer service and fantastic ambiance!', '6 days ago'],
+    ['Carol Lloyd', 'https://via.placeholder.com/50', 'The dishes were delightful and the staff was very attentive.', '7 days ago']
+]
+
+# Reviews per page
+REVIEWS_PER_PAGE = 6
+
+@app.route('/reviews', methods=['GET'])
+def reviews_page():
+    # Get the current page number from the query parameters
+    page = int(request.args.get('page', 1))
+    
+    # Calculate start and end indices for pagination
+    start = (page - 1) * REVIEWS_PER_PAGE
+    end = start + REVIEWS_PER_PAGE
+    
+    # Paginated reviews
+    paginated_reviews = reviews[start:end]
+    
+    # Determine if there are more reviews to load
+    has_more = end < len(reviews)
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # For AJAX requests
+        return jsonify({
+            'reviews': paginated_reviews,
+            'has_more': has_more
+        })
+    
+    return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page)
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

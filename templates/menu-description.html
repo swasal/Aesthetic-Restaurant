@@ -1,0 +1,100 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h3 class="text-light">
+        <small class="text-light text-opacity-25">item</small>
+        {{ item.name }}
+
+    </h3>
+    <br><br><br>
+
+    <!-- MEnu pictures -->
+
+    <div class="container text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                
+            </div>
+            <div class="col-9">
+                
+                <!--actuakl carousel  -->
+                <div id="carouselExample" class="carousel slide">
+
+                    <div class="carousel-inner">
+        
+                        <div class="carousel-item active">
+                            <img src="https://placehold.co/400x200" class="d-block w-100" alt="...">
+                        </div>
+        
+                        
+                        <div class="carousel-item">
+                            <img src="https://placehold.co/400x200" class="d-block w-100" alt="...">
+                        </div>
+        
+                    
+                    </div>
+                    
+        
+                    <!-- Buttons for navigation -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                
+
+            </div>
+            <div class="col">
+                
+            </div>
+        </div>
+      </div>
+
+
+
+    
+        
+    
+    
+    
+
+
+    <br><br><br>
+
+
+
+    <!-- itemion stats in details -->
+
+    <dl class="row text-light">
+        <dt class="col-sm-3 text-truncate text-light fw-bolder text-opacity-50 text-end">Name</dt>
+        <dd class="col-sm-9 text-light ">{{ item.name }}</dd>
+        <br><br>
+
+        <dt class="col-sm-3 text-truncate text-light fw-bolder text-opacity-50 text-end">Description</dt>
+        <dd class="col-sm-9 text-light ">{{item.description}}</dd>
+        <br><br>
+
+        <dt class="col-sm-3 text-truncate text-light fw-bolder text-opacity-50 text-end">ingriedients</dt>
+        <dd class="col-sm-9 text-light">
+            <ul>
+                {% for j in item.ingriedients %}
+                <li>{{ j }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <br><br><br><br>
+
+
+        <dt class="col-sm-3 text-truncate text-light fw-bolder text-opacity-50 text-end">price</dt>
+        <dd class="col-sm-9 text-light">{{item.price}}</dd>
+        <br><br>
+
+    </dl>
+
+{% endblock %}

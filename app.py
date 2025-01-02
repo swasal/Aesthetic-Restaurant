@@ -9,6 +9,8 @@ from flask import Flask, render_template, request, redirect, url_for
 
 users = [] # In-memory storage for user data
 userlogin=True #track if user is logged in
+meaw="cat"
+
 
 
 
@@ -23,9 +25,7 @@ app = Flask(__name__)
 
 
 
-#testing routes
-
-
+#setting up 
 
 
 #routing traffic

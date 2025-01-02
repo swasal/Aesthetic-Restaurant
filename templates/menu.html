@@ -46,6 +46,12 @@
         Champion
     </h3>
 
+    
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" id="btn_edit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="text-align: right;" >Add item</button>
+    </div>
+
 
     <!-- menu recommendation -->
      {% if userlogin==True %}
@@ -121,5 +127,70 @@
             {% endfor %}
         </div>
     </div>
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                
+                <!-- form to edit menu -->
+
+                <form id="addmenu" class="row g-3" action="">
+
+                    <!-- Name -->
+                    <div class="col-12">
+                        <label for="inputName" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="inputName" placeholder="Adolf's pancake" >
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-12">
+                        <label for="inputPreferredIngredients" class="form-label">Description</label>
+                        <textarea class="form-control" name="inputPreferredIngredients" placeholder="Describe the item that you are adding..." rows="2" ></textarea>
+                    </div>
+
+                      <!-- Ingredients -->
+                    <div class="col-12">
+                        <label for="inputPreferredIngredients" class="form-label">Ingredients</label>
+                        <textarea class="form-control" name="inputPreferredIngredients" placeholder="List the ingriedients seperate with ';' " rows="2" ></textarea>
+                    </div>                 
+      
+                    <!-- Weight -->
+                    <div class="col-12">
+                      <label for="price" class="form-label">Price</label>
+                      <input type="number" class="form-control" name="price" placeholder="e.g., 650" >
+                    </div>
+
+                    <!-- File inputs -->
+                    <div class="col-12">
+                        <label for="formFileMultiple" class="form-label">Select images for the menu</label>
+                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                      </div>
+
+                </form>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Discrad</button>
+                <button type="submit" form="addmenu" class="btn btn-outline-success">Confirm</button>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
 {% endblock %}
 

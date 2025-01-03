@@ -1,3 +1,5 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime, timedelta  # Import timedelta along with datetime
 
@@ -66,6 +68,13 @@ def calculate_hours(start_time, end_time):
     duration = (end - start).seconds / 3600  # Convert seconds to hours
     return duration
 
+# Define the upload folder (make sure this folder exists)
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+# Function to check file extension
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Initiating Flask app
 app = Flask(__name__)
@@ -112,7 +121,24 @@ def register():
         if password != confirm_password:
             return "Passwords do not match", 400
 
-        # Save user data (in-memory storage for demonstration)
+        # Handle file upload for profile picture
+        if 'profile_picture' not in request.files:
+            return "No file part", 400
+        profile_picture = request.files['profile_picture']
+
+        if profile_picture and allowed_file(profile_picture.filename):
+                    # Ensure the upload directory exists
+                    if not os.path.exists(UPLOAD_FOLDER):
+                        os.makedirs(UPLOAD_FOLDER)
+
+                    # Secure the filename and save the file
+                    filename = secure_filename(profile_picture.filename)
+                    file_path = os.path.join(UPLOAD_FOLDER, filename)
+                    profile_picture.save(file_path)
+        else:
+            return "Invalid file format", 400
+
+        # Save user data (including the file path for the profile picture)
         new_user = {
             'username': username,
             'email': email,
@@ -120,14 +146,17 @@ def register():
             'dob': dob,
             'height': height,
             'weight': weight,
+            'profile_picture': file_path  # Store the file path of the profile picture
         }
+        
+        # You can save this data in your database or any storage method you are using
         users.append(new_user)
 
         # Redirect to login page after successful profile creation
         return redirect(url_for('login'))
 
     # Render the register form
-    return render_template('register.html')  # Display the sign-in form
+    return render_template('register.html')  # Display the registration form
 
 @app.route("/profile")
 def profile():
@@ -135,6 +164,12 @@ def profile():
 
 @app.route("/staff_dashboard", methods=["GET", "POST"])
 def staff_dashboard():
+    # Get the search query from the GET request
+    search_query = request.args.get('search', '').lower()  # Get the query from the URL
+    
+    # Filter staff based on the search query
+    filtered_staff_members = [staff for staff in staff_members if search_query in staff['name'].lower()] if search_query else staff_members
+
     if request.method == 'POST':
         # Handle the staff schedule form submission here
         for staff in staff_members:
@@ -159,7 +194,7 @@ def staff_dashboard():
 
         return redirect(url_for('staff_dashboard'))  # Redirect after saving
 
-    return render_template('staff_dashboard.html', staff_members=staff_members, current_month=datetime.now().month, current_year=datetime.now().year)
+    return render_template('staff_dashboard.html', staff_members=filtered_staff_members, current_month=datetime.now().month, current_year=datetime.now().year)
 
 @app.route("/staff_profile/<int:staff_id>")
 def staff_profile(staff_id):

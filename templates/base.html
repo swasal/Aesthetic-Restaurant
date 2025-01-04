@@ -74,6 +74,12 @@
                                 Order
                             </a>
                           </li>
+                        <!-- Button Admin Dashboard -->
+                        <li class="nav-item" data-bs-theme="dark">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}" role="button" aria-expanded="false">
+                                Admin
+                            </a>
+                          </li>   
 
                         <!-- Button Explore -->
                         <li class="nav-item dropdown" data-bs-theme="dark">
@@ -100,7 +106,6 @@
                         
                       </ul>
 
-                      
                       {% block searchbar %}
                       {% endblock %}
 

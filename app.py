@@ -124,40 +124,82 @@ def ordersummary():
 def reservation():
     return render_template("reservation.html", title="Reservation")
 
-
-@app.route('/menu', defaults={'item_id': None})
-@app.route('/menu/<item_id>')
-def menu(item_id):
-    global userlogin
-
-    if item_id==None: #render menu page
-
-        # Sample menu data
-        menu = [
-            ['item_id_1', 'Cake', 'A vanilla cake', "A description of the item"],
-            ['item_id_2', 'Cake', 'A vanilla cake', "A description of the item"],
-            ['item_id_3', 'Cake', 'A vanilla cake', "A description of the item"],
-        ]
-
-        return render_template('menu.html', title="Menu", menu=menu, userlogin=userlogin)
+  
+@app.route('/menu')
+def menu():
+    # Sample menu data
+    menu = [
+        ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
+        ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
+        ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
+    ]
+    return render_template('menu.html', title="Menu", menu=menu)
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
+def admin_dashboard():
+    # Local menu list
+    menu = [
+        ['1', 'Cake', 'A vanilla cake', "A delicious vanilla-flavored cake with frosting"],
+        ['2', 'Pie', 'An apple pie', "A freshly baked apple pie with a flaky crust"],
+        ['3', 'Cookie', 'Chocolate chip cookies', "Crunchy chocolate chip cookies with a hint of vanilla"],
+    ]
     
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'add':
+            # Add a new menu item
+            item_id = str(len(menu) + 1)
+            name = request.form.get('name')
+            description = request.form.get('description')
+            details = request.form.get('details')
+            if name and description and details:
+                menu.append([item_id, name, description, details])
+        elif action == 'delete':
+            # Delete an item
+            item_id = request.form.get('id')
+            menu = [item for item in menu if item[0] != item_id]
 
-    else: #render item description page
+    return render_template('admin_dashboard.html', menu=menu)
 
-        
-        class dish:
-            # Constructor to initialize the object with name and age
-            def __init__(self, name, item_id, description, picture, ingriedients, price):
-                self.name = name
-                self.id = item_id
-                self.description=description
-                self.picture=picture
-                self.ingriedients=ingriedients
-                self.price=price
 
-        item=dish("meaw", 1234, "Descrition of athe item from the db", "A list of the pictures", ["spices", "mayo"], 12.50)
 
-        return render_template('menu-description.html', title=f"{item_id}", item=item)
+# Sample reviews data
+reviews = [
+    ['Jean Tang', 'https://via.placeholder.com/50', '可以搭地鐵再轉搭免費公車上山，很方便。看夕陽，看洛杉磯夜景的好地方。', '2 days ago'],
+    ['محمد جواد حبیبی', 'https://via.placeholder.com/50', 'من بیمه عمر خریدم و بعد از 1 سال واقعا احساس ثروتمندی میکنم', '2 days ago'],
+    ['Daniel White', 'https://via.placeholder.com/50', 'Great views of the surrounding area and interesting exhibits. Highly recommend!', '4 days ago'],
+    ['Breanne F', 'https://via.placeholder.com/50', 'Easy hike and not too busy on weekend evenings during early December!', '4 days ago'],
+    ['Hamza Amin', 'https://via.placeholder.com/50', 'Excellent quality of product. Tried honey nuts and they are amazing. Highly recommend.', '5 days ago'],
+    ['Ali Muhammad', 'https://via.placeholder.com/50', 'Great customer service and fantastic ambiance!', '6 days ago'],
+    ['Carol Lloyd', 'https://via.placeholder.com/50', 'The dishes were delightful and the staff was very attentive.', '7 days ago']
+]
+
+# Reviews per page
+REVIEWS_PER_PAGE = 6
+
+@app.route('/reviews', methods=['GET'])
+def reviews_page():
+    # Get the current page number from the query parameters
+    page = int(request.args.get('page', 1))
+    
+    # Calculate start and end indices for pagination
+    start = (page - 1) * REVIEWS_PER_PAGE
+    end = start + REVIEWS_PER_PAGE
+    
+    # Paginated reviews
+    paginated_reviews = reviews[start:end]
+    
+    # Determine if there are more reviews to load
+    has_more = end < len(reviews)
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # For AJAX requests
+        return jsonify({
+            'reviews': paginated_reviews,
+            'has_more': has_more
+        })
+    
+    return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page)
+
+
 
 
 

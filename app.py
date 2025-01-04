@@ -17,6 +17,7 @@ meaw="cat"
 #code
 
 
+
 # initiating app.py
 app = Flask(__name__)
 
@@ -127,13 +128,18 @@ def reservation():
   
 @app.route('/menu')
 def menu():
+    global userlogin
     # Sample menu data
     menu = [
         ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
         ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
         ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
     ]
-    return render_template('menu.html', title="Menu", menu=menu)
+    return render_template('menu.html', title="Menu", menu=menu, userlogin=userlogin)
+
+
+
+
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 def admin_dashboard():
     # Local menu list

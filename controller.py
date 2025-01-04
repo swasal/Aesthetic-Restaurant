@@ -5,6 +5,7 @@
 
 
 #global
+userlist=object() #list of all usrr objects fteched from model.py
 
 
 
@@ -16,3 +17,7 @@ def BMI(weight:int, height:int, ):
 
     bmi=weight/height
     return
+
+
+def authenticate_user(username, password):
+    for user in userlist:

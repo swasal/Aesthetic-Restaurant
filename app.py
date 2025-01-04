@@ -8,6 +8,9 @@ from flask import Flask, render_template, request, redirect, url_for
 #global
 
 users = [] # In-memory storage for user data
+userlogin=True #track if user is logged in
+meaw="cat"
+
 
 
 
@@ -22,13 +25,16 @@ app = Flask(__name__)
 
 
 
+#setting up 
+
 
 #routing traffic
-
 
 @app.route("/")
 def home():
     return render_template("index.html", title="Home")
+
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -50,7 +56,9 @@ def login():
         return redirect(url_for('login'))
 
     # Render the login form
-    return render_template('login.html')
+    return render_template('login.html', title="Login")
+
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -85,7 +93,7 @@ def register():
         return redirect(url_for('login'))
 
     # Render the register form
-    return render_template('register.html')  # Display the sign-in form
+    return render_template('register.html', title="Register")  # Display the sign-in form
 
 
 
@@ -95,10 +103,11 @@ def profile():
 
 
 
-
 @app.route("/contact")
 def contact():
     return render_template("contact.html", title="Contact Us")
+
+
 
 @app.route('/ordersummary')
 def ordersummary():
@@ -109,10 +118,13 @@ def ordersummary():
     ]
     return render_template('order_summary.html', title="Order Summary", ordersummary=ordersummary)
 
+
+
 @app.route("/reservation")
 def reservation():
     return render_template("reservation.html", title="Reservation")
 
+  
 @app.route('/menu')
 def menu():
     # Sample menu data
@@ -190,5 +202,7 @@ def reviews_page():
 
 
 
+
+#executing file
 if __name__ == "__main__":
     app.run(debug=True)

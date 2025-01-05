@@ -339,31 +339,11 @@ reviews = [
     ['Carol Lloyd', 'https://via.placeholder.com/50', 'The dishes were delightful and the staff was very attentive.', '7 days ago']
 ]
 
-# Reviews per page
-REVIEWS_PER_PAGE = 6
-
 @app.route('/reviews', methods=['GET'])
 def reviews_page():
-    # Get the current page number from the query parameters
-    page = int(request.args.get('page', 1))
-    
-    # Calculate start and end indices for pagination
-    start = (page - 1) * REVIEWS_PER_PAGE
-    end = start + REVIEWS_PER_PAGE
-    
-    # Paginated reviews
-    paginated_reviews = reviews[start:end]
-    
-    # Determine if there are more reviews to load
-    has_more = end < len(reviews)
-    
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # For AJAX requests
-        return jsonify({
-            'reviews': paginated_reviews,
-            'has_more': has_more
-        })
-    
-    return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page)
+    # Pass all reviews to the template
+    return render_template('reviews.html', title='Reviews', reviews=reviews)
+
 
 
 

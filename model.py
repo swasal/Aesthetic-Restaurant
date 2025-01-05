@@ -3,7 +3,6 @@
 #imports
 
 
-
 #cglobal 
 
 
@@ -19,11 +18,6 @@ class User:
         self.username=username
         self.password=password
 
-class Customer(User):
-    pass
-
-class Employee():
-    pass
 
 class Menu:
     def __init__(self, itemcode, name, description, ingredients, price):

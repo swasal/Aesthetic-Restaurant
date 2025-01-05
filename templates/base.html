@@ -58,12 +58,7 @@
                           </a>
                         </li>
 
-                        <!-- Button Login -->
-                        <li class="nav-item" data-bs-theme="dark">
-                            <a class="nav-link" href="{{ url_for('login') }}" role="button" aria-expanded="false">
-                              Login
-                            </a>
-                          </li>
+                        
                           
 
                         <!-- Button Menu -->
@@ -73,19 +68,18 @@
                           </a>
                         </li>
 
-                        <!-- Button register -->
-                        <li class="nav-item" data-bs-theme="dark">
-                            <a class="nav-link" href="{{ url_for('register') }}" role="button" aria-expanded="false">
-                                Register
-                            </a>
-                          </li>
-
                         <!-- Button Order Summary -->
                         <li class="nav-item" data-bs-theme="dark">
                             <a class="nav-link" href="{{ url_for('ordersummary') }}" role="button" aria-expanded="false">
                                 Order
                             </a>
                           </li>
+                        <!-- Button Admin Dashboard -->
+                        <li class="nav-item" data-bs-theme="dark">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}" role="button" aria-expanded="false">
+                                Admin
+                            </a>
+                          </li>   
 
                         <!-- Button Explore -->
                         <li class="nav-item dropdown" data-bs-theme="dark">
@@ -121,10 +115,23 @@
                                 Staff Dashboard
                            </a>
                         </li>
+
                       </ul>
 
                       {% block searchbar %}
                       {% endblock %}
+
+                      <!-- use if statement for login -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            {% if userlogin==True %}
+                                <button type="button" class="btn btn-success"  onclick="window.location.href='{{ url_for('profile') }}'" style="text-align: right;" >Profile</button>
+                            {% else %}
+                                <button type="button" class="btn btn-success"  onclick="window.location.href='{{ url_for('login') }}'" style="text-align: right;" >Login</button>
+                            {% endif %}
+                        </div>
+
+                    
+
                   </div>
               </div>
           </nav>

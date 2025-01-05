@@ -103,3 +103,20 @@ class Reservation:
         self.date = date
         self.time = time
         self.number_of_guests = number_of_guests
+
+
+
+def registeruser():
+    # sql to add user to db
+    # sql to add userrname and password to user table
+    # sql to add username': username,
+            # 'email': email,
+            # 'phone': phone,
+            # 'dob': dob,
+            # 'height': height,
+            # 'weight': weight,
+            # to the database
+    
+    return 1
+    return 0
+    pass

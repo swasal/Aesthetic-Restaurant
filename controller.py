@@ -21,3 +21,7 @@ def BMI(weight:int, height:int, ):
 
 def authenticate_user(username, password):
     for user in userlist:
+        pass
+
+def register(username:str, email:str, password, confirm_password, phone:int, dob, height, weight):
+    pass

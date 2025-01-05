@@ -80,7 +80,6 @@ def allowed_file(filename):
 app = Flask(__name__)
 
 # Routing traffic
-=======
 
 
 

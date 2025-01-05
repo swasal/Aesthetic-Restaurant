@@ -1,6 +1,6 @@
 """This file contains all the functions that serve as controller"""
 
-#imports
+import mysql.connector
 
 
 #cglobal 
@@ -8,6 +8,29 @@
 
 
 #code
+import mysql.connector
+from config import DB_CONFIG
+
+class Database:
+    def __init__(self):
+        self.conn = mysql.connector.connect(**DB_CONFIG)
+        self.cursor = self.conn.cursor(dictionary=True)  # Use dictionary=True to get column names
+
+    def execute_query(self, query, params=None):
+        self.cursor.execute(query, params or ())
+        self.conn.commit()
+
+    def fetch_all(self, query, params=None):
+        self.cursor.execute(query, params or ())
+        return self.cursor.fetchall()
+
+    def close(self):
+        self.cursor.close()
+        self.conn.close()
+
+
+# Function to fetch all user data
+
 
 #class
 
@@ -114,3 +137,13 @@ def registeruser():
     return 1
     return 0
     pass
+
+
+
+
+def fetchprofile():
+    db = Database()
+    query = "SELECT * FROM User"  # Fetch all data from the User table
+    users = db.fetch_all(query)
+    db.close()
+    return users

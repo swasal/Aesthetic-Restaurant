@@ -103,7 +103,19 @@
                           </ul>
                         </li>
 
-                        
+                        <!-- Button Profile -->
+                        <li class="nav-item mr-auto" data-bs-theme="dark">
+                          <a class="nav-link" href="{{ url_for('profile') }}" role="button" aria-expanded="false">
+                              Profile
+                          </a>
+                        </li>
+                        <!-- Button Staff Dashboard -->
+                        <li class="nav-item mr-auto" data-bs-theme="dark">
+                           <a class="nav-link" href="{{ url_for('staff_dashboard') }}" role="button" aria-expanded="false">
+                                Staff Dashboard
+                           </a>
+                        </li>
+
                       </ul>
 
                       {% block searchbar %}

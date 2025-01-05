@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand mx-auto" href="#">Staff Profile</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="d-flex justify-content-center">
+    <div class="container py-4" style="max-width: 1200px;">
+        <div class="text-center mb-4">
+            <h1 class="h2">{{ staff.name }}'s Profile</h1>
+            <p class="lead">{{ staff.role }}</p>
+        </div>
+
+        <!-- Staff Information -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Staff Information</h5>
+                        <p><strong>Name:</strong> {{ staff.name }}</p>
+                        <p><strong>Role:</strong> {{ staff.role }}</p>
+                        <p><strong>Total Hours Worked:</strong> {{ staff.total_hours }} hours</p>
+                        <p><strong>Weekly Salary:</strong> ${{ staff.weekly_salary }}</p>
+                        <p><strong>Monthly Salary:</strong> ${{ staff.monthly_salary }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Schedule -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Work Schedule</h5>
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Day</th>
+                                    <th scope="col">Start Time</th>
+                                    <th scope="col">End Time</th>
+                                    <th scope="col">Leave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set total_weekly_hours = 0 %}
+                                {% for day in range(7) %}
+                                    <tr>
+                                        <td>{{ ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][day] }}</td>
+                                        <td>{{ staff.hours[day].start if staff.hours[day] else 'N/A' }}</td>
+                                        <td>{{ staff.hours[day].end if staff.hours[day] else 'N/A' }}</td>
+                                        <td>{% if staff.leave[day] %}Yes{% else %}No{% endif %}</td>
+                                    </tr>
+                                    
+                                    {% if staff.hours[day].start and staff.hours[day].end and not staff.leave[day] %}
+                                        {% set start_time = staff.hours[day].start %}
+                                        {% set end_time = staff.hours[day].end %}
+                                        
+                                        {% set worked_hours = (end_time | time_diff(start_time)) %}
+                                        {% set total_weekly_hours = total_weekly_hours + worked_hours %}
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <!-- Display total weekly hours -->
+                        <!-- <p><strong>Total Weekly Hours Worked:</strong> {{ total_weekly_hours }} hours</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('staff_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+    </div>
+</main>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

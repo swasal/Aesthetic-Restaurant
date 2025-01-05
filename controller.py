@@ -25,3 +25,4 @@ def authenticate_user(username, password):
 
 def register(username:str, email:str, password, confirm_password, phone:int, dob, height, weight):
     pass
+

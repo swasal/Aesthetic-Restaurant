@@ -1,19 +1,72 @@
 """This file contains all the functions that serve as controller"""
 
 #imports
+import mysql.connector
+from mysql.connector import Error
+
 
 
 #cglobal 
 
 
 
-#code
+# connection to database
+def connect_to_database():
+    try:
+        # Establish the connection
+        connection = mysql.connector.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="root",
+            database="aesthetic_res"
+        )
+        
+        if connection.is_connected():
+            print("Connected to MySQL database!")
+            # Fetch and print server information
+            db_info = connection.get_server_info()
+            print(f"MySQL Server version: {db_info}")
+            
+            # Create a cursor to execute SQL queries
+            cursor = connection.cursor()
+            cursor.execute("SELECT DATABASE();")
+            db_name = cursor.fetchone()
+            print(f"Connected to database: {db_name[0]}")
+
+            return connection
+
+    except Error as e:
+        print(f"Error connecting to MySQL: {e}")
+        return None
+
+
+
+# Call the function to connect
+db_connection = connect_to_database()
+
+
+
+def execute_query(connection, query):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        cursor.close()
+        
+        return results
+        
+        # Close the cursor
+        
+    except mysql.connector.Error as e:
+        print(f"Error executing query: {e}")
+
+
+
 
 #class
-
 class User:
     def __init__(self, account_id , username, password  ):
-        # sql statement to fetch userdata and assign the attributes
         self.account_id=account_id
         self.username=username
         self.password=password
@@ -21,7 +74,6 @@ class User:
 
 class Menu:
     def __init__(self, itemcode, name, description, ingredients, price):
-        # run an sqlthe data command to fetch 
         self.itemcode=itemcode
         self.name=name
         self.description=description
@@ -30,7 +82,6 @@ class Menu:
 
 class Admin:
     def __init__(self, admin_id, name, phone, email, password):
-    
         self.admin_id = admin_id
         self.name = name
         self.phone = phone
@@ -64,7 +115,6 @@ class Customer:
 
 class Employee:
     def __init__(self, employee_id, name, birthdate, phone, email, job_title, department, hired, address, slots, shift_date):
-        
         self.employee_id = employee_id
         self.name = name
         self.birthdate = birthdate
@@ -100,6 +150,7 @@ class Reservation:
 
 
 
+
 def registeruser():
     # sql to add user to db
     # sql to add userrname and password to user table
@@ -114,3 +165,20 @@ def registeruser():
     return 1
     return 0
     pass
+
+def fetchmenu():
+    query = "SELECT * FROM aesthetic_res.menu;"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+    out=[]
+    for i in result:
+        out.append(Menu(i[0],i[1],i[2],i[3],i[4]))
+    return out
+
+
+# x=fetchmenu()
+
+# print(x[1].name)
+
+
+

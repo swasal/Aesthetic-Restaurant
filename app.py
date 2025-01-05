@@ -1,6 +1,7 @@
 
 #import
 import controller
+import model
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime, timedelta  # Import timedelta along with datetime
 
@@ -212,11 +213,13 @@ def reservation():
 def menu():
     global userlogin
     # Sample menu data
-    menu = [
-        ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
-        ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
-        ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
-    ]
+    # menu = [
+    #     ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
+    #     ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
+    #     ['item_id', 'Cake', 'A vanilla cake', "A description of the item"],
+    # ]
+
+    menu=model.fetchmenu()
     return render_template('menu.html', title="Menu", menu=menu, userlogin=userlogin)
 
 

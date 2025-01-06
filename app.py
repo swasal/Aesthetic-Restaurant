@@ -286,11 +286,9 @@ reviews = [
     ['Carol Lloyd', 'https://via.placeholder.com/50', 'The dishes were delightful and the staff was very attentive.', '7 days ago']
 ]
 
-# Reviews per page
-REVIEWS_PER_PAGE = 6
-
 @app.route('/reviews', methods=['GET'])
 def reviews_page():
+
     # Get the current page number from the query parameters
     page = int(request.args.get('page', 1))
     
@@ -311,6 +309,11 @@ def reviews_page():
     #     })
     
     return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page)
+
+    # Pass all reviews to the template
+    return render_template('reviews.html', title='Reviews', reviews=reviews)
+
+
 
 
 

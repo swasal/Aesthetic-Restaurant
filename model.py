@@ -8,4 +8,304 @@
 
 
 
+
 #code
+
+
+# connection to database
+def connect_to_database():
+    try:
+        # Establish the connection
+        connection = mysql.connector.connect(
+            host="localhost",
+            port=3306,
+            user="root",
+            password="root",
+            database="aesthetic_res"
+        )
+        
+        if connection.is_connected():
+            print("Connected to MySQL database!")
+            # Fetch and print server information
+            db_info = connection.get_server_info()
+            print(f"MySQL Server version: {db_info}")
+            
+            # Create a cursor to execute SQL queries
+            cursor = connection.cursor()
+            cursor.execute("SELECT DATABASE();")
+            db_name = cursor.fetchone()
+            print(f"Connected to database: {db_name[0]}")
+
+            return connection
+
+    except Error as e:
+        print(f"Error connecting to MySQL: {e}")
+        return None
+
+
+
+# Call the function to connect
+db_connection = connect_to_database()
+
+
+
+def execute_query(connection, query):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        cursor.close()
+        
+        return results
+        
+        # Close the cursor
+        
+    except mysql.connector.Error as e:
+        print(f"Error executing query: {e}")
+
+
+
+
+#class
+class User:
+    def __init__(self, account_id , username, password  ):
+        self.account_id=account_id
+        self.username=username
+        self.password=password
+
+# class User:
+#     def __init__(self, user_id, username, email, phone, dob, height, weight, role):
+#         self.user_id = user_id
+#         self.username = username
+#         self.email = email
+#         self.phone = phone
+#         self.dob = dob
+#         self.height = height
+#         self.weight = weight
+#         self.role = role  # Example: Admin, Staff, or Customer
+
+
+class Menu:
+    def __init__(self, itemcode, name, description, pictures, ingredients, price):
+        self.itemcode=itemcode
+        self.name=name
+        self.description=description
+        self.pictures=pictures
+        self.ingredients=ingredients
+        self.price=price
+
+class Admin:
+    def __init__(self, admin_id, name, phone, email, password):
+        self.admin_id = admin_id
+        self.name = name
+        self.phone = phone
+        self.email = email
+        self.password = password
+
+class Staff:
+    def __init__(self, staff_id, name, role, phone, email, address, salary, schedule):
+        self.staff_id = staff_id
+        self.name = name
+        self.role = role
+        self.phone = phone
+        self.email = email
+        self.address = address
+        self.salary = salary
+        self.schedule = schedule  
+
+
+class Review:
+    def __init__(self, review_id, customer_id, date, content):
+        
+        self.review_id = review_id
+        self.customer_id = customer_id
+        self.date = date
+        self.content = content
+
+class Customer:
+    def __init__(self, customer_id, name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala):
+        
+        self.customer_id = customer_id
+        self.name = name
+        self.birthdate = birthdate
+        self.phone = phone
+        self.email = email
+        self.allergens = allergens
+        self.height = height
+        self.weight = weight
+        self.address = address
+        self.preferred_ingredients = preferred_ingredients
+        self.level_of_masala = level_of_masala
+
+
+class Employee:
+    def __init__(self, employee_id, name, birthdate, phone, email, job_title, department, hired, address, slots, shift_date):
+        self.employee_id = employee_id
+        self.name = name
+        self.birthdate = birthdate
+        self.phone = phone
+        self.email = email
+        self.job_title = job_title
+        self.department = department
+        self.hired = hired
+        self.address = address
+        self.slots = slots
+        self.shift_date = shift_date
+
+
+class OrderSummary:
+    def __init__(self, order_id, customer_id, items, total_amount, order_date, payment_status):
+        self.order_id = order_id
+        self.customer_id = customer_id
+        self.items = items  
+        self.total_amount = total_amount
+        self.order_date = order_date
+        self.payment_status = payment_status  
+
+
+
+class Reservation:
+    def __init__(self, reservation_id, customer_id, date, time, number_of_people, special_request):
+        self.reservation_id = reservation_id
+        self.customer_id = customer_id
+        self.date = date
+        self.time = time
+        self.number_of_people = number_of_people
+        self.special_request = special_request
+
+
+
+
+class Registeruser:
+    def __init__(self, email, phone, dob, height, weight, account_id , username, password):
+        self.email=email
+        self.phone=phone
+        self.dob=dob
+        self.height=height
+        self.weight=weight
+        self.account_id=account_id
+        self.username=username
+        self.password=password
+    
+            # 'email': email,
+            # 'phone': phone,
+            # 'dob': dob,
+            # 'height': height,
+            # 'weight': weight,
+            # to the database
+
+
+
+
+def fetchmenu():
+    query = "SELECT * FROM aesthetic_res.menu;"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+    menulist=[]
+    for i in result:
+        pic=i[3].split(",")
+        ing=i[4].split(",")
+        menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
+    return menulist
+
+def fetchmenu_byid(itemid):
+    query = f"SELECT * FROM aesthetic_res.menu where itemid={itemid};"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+    menulist=[]
+    for i in result:
+        pic=i[3].split(",")
+        ing=i[4].split(",")
+        menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
+    return menulist[0]
+
+
+
+def fetchuser_byusername(username):
+    query = f"SELECT * FROM aesthetic_res.user where username='{username}';"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+    if len(result)<1:
+        return None
+    else:
+        i=result[0]
+        return User(i[0], i[2], i[1])
+
+
+
+def fetchcustomer_by_customerid(customer_id):
+    query = f"SELECT * FROM aesthetic_res.customer where Customer_ID='{customer_id}';"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+
+    # def __init__(self, customer_id, name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
+    if len(result)<1:
+        return None
+    else:
+        i=result[0]
+        
+        return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
+
+
+
+def fetchstaff_by_staffid(staff_id):
+    query = f"SELECT * FROM aesthetic_res.staff WHERE Staff_ID='{staff_id}';"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    if len(result) < 1:
+        return None
+    else:
+        i = result[0]
+        
+        return Staff(staff_id=i[0], name=i[1], role=i[2], phone=i[3], email=i[4], address=i[5], salary=i[6], schedule=i[7])
+
+
+def fetchreservation_by_reservationid(reservation_id):
+    query = f"SELECT * FROM aesthetic_res.reservation WHERE Reservation_ID='{reservation_id}';"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    if len(result) < 1:
+        return None
+    else:
+        i = result[0]
+        
+        return Reservation(reservation_id=i[0], customer_id=i[1], date=i[2].date(), time=i[3], number_of_people=i[4], special_request=i[5])
+
+
+def fetchorder_summary_by_orderid(order_id):
+    query = f"SELECT * FROM aesthetic_res.order_summary WHERE Order_ID='{order_id}';"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    if len(result) < 1:
+        return None
+    else:
+        i = result[0]
+        items = i[2].split(",")  
+
+        return OrderSummary(order_id=i[0], customer_id=i[1], items=items, total_amount=i[3], order_date=i[4].date(), payment_status=i[5])
+
+
+def fetchregistered_users():
+    query = "SELECT * FROM aesthetic_res.user;"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    user_list = []
+    for i in result:
+        
+        user_list.append(User(user_id=i[0], username=i[1], email=i[2], phone=i[3], dob=i[4].date(), height=i[5], weight=i[6], role=i[7]))
+    return user_list
+
+registered_users = fetchregistered_users()
+for user in registered_users:
+    print(f"ID: {user.user_id}, Username: {user.username}, Role: {user.role}")
+
+
+
+
+
+
+>>>>>>> Stashed changes

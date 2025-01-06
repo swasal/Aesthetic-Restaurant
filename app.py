@@ -25,7 +25,7 @@ users = []  # In-memory storage for user data
 
 #global
 
-users = [] # In-memory storage for user data
+# users = [] # In-memory storage for user data
 userlogin=True #track if user is logged in
 meaw="cat"
 

@@ -197,6 +197,7 @@ def fetchmenu():
         menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
     return menulist
 
+
 def fetchmenu_byid(itemid):
     query = f"SELECT * FROM aesthetic_res.menu where itemid={itemid};"
     if db_connection and db_connection.is_connected():
@@ -257,13 +258,6 @@ def addmenu(item):
     print("rows added")
 
 
-# x=Menu(0,"name", "desc", "pictre1,pic2", "ing", 45)
-# addmenu(x)
-# print(fetchmenu_byid(6).pictures)
-
-
-# UPDATE `aesthetic_res`.`menu` SET `ItemName` = 'name', `Description` = 'desc', `Picture` = 'picture,pic3', `Ingredients` = 'ing1,ing2', `Price` = '24' WHERE (`ItemID` = '7');
-
 
 def updatemenu(item):
     # converting pictureslist to text
@@ -301,64 +295,8 @@ def updateprofile(user):
          db_connection.commit()
     print("rows edited")
         
-    return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
+    # return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
 
-
-
-def fetchstaff_by_staffid(staff_id):
-    query = f"SELECT * FROM aesthetic_res.staff WHERE Staff_ID='{staff_id}';"
-    if db_connection and db_connection.is_connected():
-        result = execute_query(db_connection, query)
-    
-    if len(result) < 1:
-        return None
-    else:
-        i = result[0]
-        
-        return Staff(staff_id=i[0], name=i[1], role=i[2], phone=i[3], email=i[4], address=i[5], salary=i[6], schedule=i[7])
-
-
-def fetchreservation_by_reservationid(reservation_id):
-    query = f"SELECT * FROM aesthetic_res.reservation WHERE Reservation_ID='{reservation_id}';"
-    if db_connection and db_connection.is_connected():
-        result = execute_query(db_connection, query)
-    
-    if len(result) < 1:
-        return None
-    else:
-        i = result[0]
-        
-        return Reservation(reservation_id=i[0], customer_id=i[1], date=i[2].date(), time=i[3], number_of_people=i[4], special_request=i[5])
-
-
-def fetchorder_summary_by_orderid(order_id):
-    query = f"SELECT * FROM aesthetic_res.order_summary WHERE Order_ID='{order_id}';"
-    if db_connection and db_connection.is_connected():
-        result = execute_query(db_connection, query)
-    
-    if len(result) < 1:
-        return None
-    else:
-        i = result[0]
-        items = i[2].split(",")  
-
-        return OrderSummary(order_id=i[0], customer_id=i[1], items=items, total_amount=i[3], order_date=i[4].date(), payment_status=i[5])
-
-
-def fetchregistered_users():
-    query = "SELECT * FROM aesthetic_res.user;"
-    if db_connection and db_connection.is_connected():
-        result = execute_query(db_connection, query)
-    
-    user_list = []
-    for i in result:
-        
-        user_list.append(User(user_id=i[0], username=i[1], email=i[2], phone=i[3], dob=i[4].date(), height=i[5], weight=i[6], role=i[7]))
-    return user_list
-
-registered_users = fetchregistered_users()
-for user in registered_users:
-    print(f"ID: {user.user_id}, Username: {user.username}, Role: {user.role}")
 
 
 

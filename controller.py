@@ -55,7 +55,7 @@ def recommendations(customer):
     return recommendedlist
             
     
-=======
+
 # Function to calculate hours worked
 def calculate_salary(role, hours_worked):
     """Calculate the salary for a staff member based on their role and worked hours."""

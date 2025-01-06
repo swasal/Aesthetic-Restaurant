@@ -42,10 +42,12 @@
 
 {% block content %}
     <h3 class="fs-1 text text-light">
-        <small class="text-light text-opacity-25">Menu</small>
-        Champion
+        <small class="text-light text-opacity-55">Menu</small>
     </h3>
 
+    <br><br>
+
+    <h1><small class="text-light text-opacity-75">Welcome {{user.name}}</small></h1>
     
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -54,7 +56,7 @@
 
 
     <!-- menu recommendation -->
-     {% if userlogin==True %}
+     {% if user %}
      <br>
      <br><br>
         <p class="fs-3 text-">Tailored Just for You!</p>
@@ -102,8 +104,8 @@
     <div class="container">
         <div class="row row-cols-2 row-cols-lg-3 ">
             {% for i in menu %}
-            <a href="{{ url_for('menu', item_id=i[0]) }}">
-                <div class="col" id="{{ i[0] }}">
+            <a href="{{ url_for('menu', item_id=i.itemcode) }}">
+                <div class="col" id="{{ i.itemcode }}">
                     <div class="p-3 border-0">
                         <div class="card mb-3 bg-dark bg-opacity-50 text-light" style="max-width: 540px;">
                             <div class="row g-0">
@@ -113,9 +115,8 @@
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <!-- Use champ_data['name'] here -->
-                                        <h4 class="card-title">{{ i[1] }}</h4>
-                                        <p class="card-text text-light text-opacity-75">{{ i[2]|title }}</p>
-                                        <p class="card-text text-light"><small class="text-light text-opacity-50">{{ i[3] }}</small></p>
+                                        <h4 class="card-title">{{ i.name }}</h4>
+                                        <p class="card-text text-light"><small class="text-light text-opacity-50">{{ i.description }}</small></p>
                                     </div>
                                 </div>
                             </div>

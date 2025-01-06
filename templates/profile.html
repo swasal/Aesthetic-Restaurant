@@ -38,61 +38,61 @@
                 <!-- Name -->
                 <div class="col-12">
                     <label for="inputName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Adolf Hitler" readonly>
+                    <input type="text" class="form-control" id="inputName" placeholder="{{user.name}}" readonly>
                 </div>
 
                 <!-- Email -->
                 <div class="col-md-6">
                   <label for="inputEmail" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="inputEmail" placeholder="hitler@gmail.com" readonly>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="{{user.email}}" readonly>
                 </div>
 
                 <!-- Phone -->
                 <div class="col-md-6">
                   <label for="inputPhoneNo" class="form-label">Phone No</label>
-                  <input type="password" class="form-control" id="inputPhoneNo" placeholder="01111111111" readonly>
+                  <input type="password" class="form-control" id="inputPhoneNo" placeholder="{{user.phone}}" readonly>
                 </div>
 
                 <!-- Address -->
                 <div class="col-12">
                   <label for="inputAddress" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
+                  <input type="text" class="form-control" id="inputAddress" placeholder="{{ user.address}}" readonly>
                 </div>
 
                 <!-- BirthDate -->
                 <div class="col-md-6">
                   <label for="inputDateofBirth" class="form-label">Date of Birth</label>
-                  <input type="text" class="form-control" id="inputDateofBirth" placeholder="DD/MM/YYYY" readonly>
+                  <input type="text" class="form-control" id="inputDateofBirth" placeholder="{{user.birthdate}}" readonly>
                 </div>
 
                 <!-- Allergens -->
                 <div class="col-12">
                   <label for="inputAllergens" class="form-label">Allergens</label>
-                  <textarea class="form-control" id="inputAllergens" placeholder="List of allergens" rows="2" readonly></textarea>
+                  <textarea class="form-control" id="inputAllergens" placeholder="{{ user.allergens }}" rows="2" readonly></textarea>
                 </div>
   
                 <!-- Height -->
                 <div class="col-md-6">
                   <label for="inputHeight" class="form-label">Height (cm)</label>
-                  <input type="number" class="form-control" id="inputHeight" placeholder="e.g., 175" readonly>
+                  <input type="number" class="form-control" id="inputHeight" placeholder="{{ user.height }}" readonly>
                 </div>
   
                 <!-- Weight -->
                 <div class="col-md-6">
                   <label for="inputWeight" class="form-label">Weight (kg)</label>
-                  <input type="number" class="form-control" id="inputWeight" placeholder="e.g., 70" readonly>
+                  <input type="number" class="form-control" id="inputWeight" placeholder="{{user.weight}}" readonly>
                 </div>
 
                 <!-- Preferred Ingredients -->
                 <div class="col-12">
                   <label for="inputPreferredIngredients" class="form-label">Preferred Ingredients</label>
-                  <textarea class="form-control" id="inputPreferredIngredients" placeholder="List of preferred ingredients" rows="2" readonly></textarea>
+                  <textarea class="form-control" id="inputPreferredIngredients" placeholder="{{ user.preferred_ingredients }}" rows="2" readonly></textarea>
                 </div>
   
                 <!-- Level of Masala -->
                 <div class="col-md-6">
                    <label for="inputMasalaLevel" class="form-label">Level of Masala</label>
-                   <input type="number" class="form-control" id="inputMasalaLevel" placeholder="e.g., 5" readonly>
+                   <input type="number" class="form-control" id="inputMasalaLevel" placeholder="{{ user.level_of_masala }}" readonly>
                 </div>
             
                 <br>

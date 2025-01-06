@@ -73,10 +73,11 @@ class User:
 
 
 class Menu:
-    def __init__(self, itemcode, name, description, ingredients, price):
+    def __init__(self, itemcode, name, description, pictures, ingredients, price):
         self.itemcode=itemcode
         self.name=name
         self.description=description
+        self.pictures=pictures
         self.ingredients=ingredients
         self.price=price
 
@@ -166,19 +167,68 @@ def registeruser():
     return 0
     pass
 
+
+
 def fetchmenu():
     query = "SELECT * FROM aesthetic_res.menu;"
     if db_connection and db_connection.is_connected():
          result=execute_query(db_connection, query)
-    out=[]
+    menulist=[]
     for i in result:
-        out.append(Menu(i[0],i[1],i[2],i[3],i[4]))
-    return out
+        pic=i[3].split(",")
+        ing=i[4].split(",")
+        menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
+    return menulist
+
+def fetchmenu_byid(itemid):
+    query = f"SELECT * FROM aesthetic_res.menu where itemid={itemid};"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+    menulist=[]
+    for i in result:
+        pic=i[3].split(",")
+        ing=i[4].split(",")
+        menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
+    return menulist[0]
 
 
-# x=fetchmenu()
 
-# print(x[1].name)
+def fetchuser_byusername(username):
+    query = f"SELECT * FROM aesthetic_res.user where username='{username}';"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+    if len(result)<1:
+        return None
+    else:
+        i=result[0]
+        return User(i[0], i[2], i[1])
+
+
+
+def fetchcustomer_by_customerid(customer_id):
+    query = f"SELECT * FROM aesthetic_res.customer where Customer_ID='{customer_id}';"
+    if db_connection and db_connection.is_connected():
+         result=execute_query(db_connection, query)
+
+    # def __init__(self, customer_id, name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
+    if len(result)<1:
+        return None
+    else:
+        i=result[0]
+        
+        return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

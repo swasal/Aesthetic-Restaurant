@@ -180,5 +180,66 @@ def fetchmenu():
 
 # print(x[1].name)
 
+def fetchcustomer():
+    query = "SELECT * FROM aesthetic_res.customer;"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    out = []
+    for i in result:
+        #table has columns in the order of the Customer attributes
+        out.append(Customer(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10]))
+    
+    return out
+
+def fetchuser():
+    query = "SELECT * FROM aesthetic_res.user;"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    out = []
+    for i in result:
+        #table has columns in the order of account_id, username, password
+        out.append(User(i[0], i[1], i[2]))
+    
+    return out
+
+def add_user(username, password):
+    query = "INSERT INTO `aesthetic_res`.`user` (`Password`, `Username`) VALUES (%s, %s)"
+    result = execute_query(db_connection, query)
+    
+    out = []
+    for i in result:
+        out.append(User(i[0], i[1]))
+    
+    return out
 
 
+def add_customer(name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala):
+    query = "INSERT INTO `aesthetic_res`.`customer` (`Name`, `Birthdate`, `Phone`, `Email`, `Allergens`, `Height`, `Weight`, `Address`, `Preferred_Ingredients`, `Level_of_Masala`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+        
+    
+    values = (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
+    result = execute_query(db_connection, query, values)
+    
+    out = []
+    for i in result:
+        out.append(Customer(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10]))
+    
+    return out
+
+def authenticate_user(username, password):
+    query = "SELECT * FROM `aesthetic_res`.`user` WHERE `Username` = %s AND `Password` = %s"
+    values = (username, password)
+    
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query, values)
+        if result:  # If a matching record is found
+            print("Authentication successful")
+            return True
+        else:
+            print("Authentication failed: Invalid username or password")
+            return False
+    else:
+        print("Database connection is not active")
+        return False

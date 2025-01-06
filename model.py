@@ -1,18 +1,12 @@
 """This file contains all the functions that serve as controller"""
 
 #imports
+import mysql.connector
+from mysql.connector import Error
 
 
 
 #cglobal 
-
-
-
-<<<<<<< Updated upstream
-#code
-=======
-
-#code
 
 
 # connection to database
@@ -58,11 +52,10 @@ def execute_query(connection, query):
         cursor.execute(query)
         results = cursor.fetchall()
         cursor.close()
-        
+
         return results
         
-        # Close the cursor
-        
+
     except mysql.connector.Error as e:
         print(f"Error executing query: {e}")
 
@@ -75,17 +68,6 @@ class User:
         self.account_id=account_id
         self.username=username
         self.password=password
-
-# class User:
-#     def __init__(self, user_id, username, email, phone, dob, height, weight, role):
-#         self.user_id = user_id
-#         self.username = username
-#         self.email = email
-#         self.phone = phone
-#         self.dob = dob
-#         self.height = height
-#         self.weight = weight
-#         self.role = role  # Example: Admin, Staff, or Customer
 
 
 class Menu:
@@ -105,6 +87,7 @@ class Admin:
         self.email = email
         self.password = password
 
+
 class Staff:
     def __init__(self, staff_id, name, role, phone, email, address, salary, schedule):
         self.staff_id = staff_id
@@ -115,6 +98,7 @@ class Staff:
         self.address = address
         self.salary = salary
         self.schedule = schedule  
+
 
 
 class Review:
@@ -156,6 +140,7 @@ class Employee:
         self.shift_date = shift_date
 
 
+
 class OrderSummary:
     def __init__(self, order_id, customer_id, items, total_amount, order_date, payment_status):
         self.order_id = order_id
@@ -189,13 +174,14 @@ class Registeruser:
         self.account_id=account_id
         self.username=username
         self.password=password
-    
+
             # 'email': email,
             # 'phone': phone,
             # 'dob': dob,
             # 'height': height,
             # 'weight': weight,
             # to the database
+
 
 
 
@@ -246,8 +232,76 @@ def fetchcustomer_by_customerid(customer_id):
         return None
     else:
         i=result[0]
+        print(i)
         
-        return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
+        return Customer(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
+
+
+
+def addmenu(item):
+    # converting pictureslist to text
+    s=""
+    for i in item.pictures:
+        s+=i + ","
+    
+    item.pictures=s[:-1]
+
+    print(item.pictures)
+    print(type(item.pictures))
+
+
+    query = f"INSERT INTO `aesthetic_res`.`menu` (`ItemName`, `Description`, `Picture`, `Ingredients`, `Price`) VALUES ('{item.name}', '{item.description}', '{item.pictures}', '{item.ingredients}', '{item.price}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows added")
+
+
+# x=Menu(0,"name", "desc", "pictre1,pic2", "ing", 45)
+# addmenu(x)
+# print(fetchmenu_byid(6).pictures)
+
+
+# UPDATE `aesthetic_res`.`menu` SET `ItemName` = 'name', `Description` = 'desc', `Picture` = 'picture,pic3', `Ingredients` = 'ing1,ing2', `Price` = '24' WHERE (`ItemID` = '7');
+
+
+def updatemenu(item):
+    # converting pictureslist to text
+    s=""
+    for i in item.pictures:
+        s+=i + ","
+    
+    item.pictures=s[:-1]
+
+    print(item.pictures)
+    print(type(item.pictures))
+
+    print(item.itemcode)
+    # query=f"UPDATE `aesthetic_res`.`menu` SET `ItemName` = '{item.name}', `Description` = '{item.description}', `Picture` = '{item.pictures}', `Ingredients` = '{item.ingredients}', `Price` = '{item.price}' WHERE (`ItemID` = '{item.itemcode}');"
+    query=f"UPDATE `aesthetic_res`.`menu` SET `ItemName` = '{item.name}' WHERE (`ItemID` = '{item.itemcode}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows edited")
+
+
+
+def deleteitem(itemcode):
+    query=f"DELETE FROM `aesthetic_res`.`menu` WHERE (`ItemID` = '{itemcode}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows deleted")
+
+
+def updateprofile(user):
+    query=f"UPDATE `aesthetic_res`.`customer` SET `Name` = '{user.name}', `Birthdate` = '{user.birthdate}', `Phone` = '{user.phone}', `Email` = '{user.address}', `Allergens` = '{user.allergens}', `Height` = '{user.height}', `Weight` = '{user.weight}', `Address` = '{user.address}', `Preferred_Ingredients` = '{user.preferred_ingredients}', `Level_of_Masala` = '{user.level_of_masala}' WHERE (`Customer_ID` = '{user.customer_id}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows edited")
+        
+    return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
 
 
 
@@ -308,4 +362,4 @@ for user in registered_users:
 
 
 
->>>>>>> Stashed changes
+

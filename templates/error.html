@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block searchbar %}
+    <div class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search our dishes" list="menudata" id="searchbar" aria-label="Search">
+        <datalist id="menudata">
+            {% for i in name %}
+            <option value="{{ i }}">
+            {% endfor %}
+          </datalist>
+        <button class="btn btn-outline-light" onclick="champsearch()">Search</button>
+    </div>
+
+
+
+
+    <script type="text/javascript">
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+
+
+        function champsearch(){
+            var input = document.getElementById("searchbar").value;
+            input=capitalize(input)
+            window.location = "#" + input;
+            document.getElementById("searchbar").value="";
+
+        }
+
+        const searchbar = document.getElementById('searchbar');
+        searchbar.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                champsearch()
+            }
+        });
+    </script>
+{% endblock %}
+
+
+
+
+{% block content %}
+    <h3 class="fs-1 text text-light">
+        <small class="text-light text-opacity-25">Error</small>
+        {{error}}
+    </h3>
+
+    <br><br>
+
+    <p>{{error_text}}</p>
+
+
+
+
+{% endblock %}
+

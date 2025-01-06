@@ -46,8 +46,14 @@
                     <div class="text-center mt-4">
                         <p>Not a member? <a href="{{ url_for('register') }}" class="text-decoration-none">Register</a></p>
                     </div>
+                    {% if errortext %}
+                    <p style="color: red;">{{ errortext }}</p>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
     </div>
+
+    
 {% endblock %}

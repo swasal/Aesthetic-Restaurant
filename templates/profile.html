@@ -15,7 +15,7 @@
 <div class="container">
     <div class="row">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" id="logout" class="btn btn-danger" style="text-align: right;" >Log out</button>
+        <button type="button" id="logout" class="btn btn-danger" style="text-align: right;" onclick="window.location.href='{{ url_for('logout') }}'">Log out</button>
     </div>
       
         <!-- Left part of the page -->
@@ -24,8 +24,8 @@
 
 
             <!-- profile picture -->
-            <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Morgana.png" class="object-fit-lg-contain border rounded" alt="Placeholder image square">
-            <p>this is a text</p>
+            <img src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" style="height: 180px; width: 180px;" class="object-fit-lg-contain border rounded" alt="Placeholder image square">
+            <p>userid :{{user.customer_id}}</p>
         </div>
 
 
@@ -33,74 +33,73 @@
         <div class="col-10">
 
             <!-- Profile information -->
-            <form class="row g-3">
+            <form id="profileform" class="row g-3" method="post" action="{{ url_for('profile') }}">
 
                 <!-- Name -->
                 <div class="col-12">
                     <label for="inputName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Adolf Hitler" readonly>
+                    <input type="text" class="form-control" name="inputName" value="{{user.name}}" >
                 </div>
 
                 <!-- Email -->
                 <div class="col-md-6">
                   <label for="inputEmail" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="inputEmail" placeholder="hitler@gmail.com" readonly>
+                  <input type="email" class="form-control" name="inputEmail" value="{{ user.email }}" >
                 </div>
 
                 <!-- Phone -->
                 <div class="col-md-6">
                   <label for="inputPhoneNo" class="form-label">Phone No</label>
-                  <input type="password" class="form-control" id="inputPhoneNo" placeholder="01111111111" readonly>
+                  <input type="text" class="form-control" name="inputPhoneNo" value="{{user.phone}}" >
                 </div>
 
                 <!-- Address -->
                 <div class="col-12">
                   <label for="inputAddress" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
+                  <input type="text" class="form-control" name="inputAddress" value="{{ user.email}}" >
                 </div>
 
                 <!-- BirthDate -->
                 <div class="col-md-6">
                   <label for="inputDateofBirth" class="form-label">Date of Birth</label>
-                  <input type="text" class="form-control" id="inputDateofBirth" placeholder="DD/MM/YYYY" readonly>
+                  <input type="text" class="form-control" name="inputDateofBirth" value="{{user.birthdate}}" >
                 </div>
 
                 <!-- Allergens -->
                 <div class="col-12">
                   <label for="inputAllergens" class="form-label">Allergens</label>
-                  <textarea class="form-control" id="inputAllergens" placeholder="List of allergens" rows="2" readonly></textarea>
+                  <textarea class="form-control" name="inputAllergens" value="" rows="2" >{{ user.allergens }}</textarea>
                 </div>
-  
+
                 <!-- Height -->
                 <div class="col-md-6">
                   <label for="inputHeight" class="form-label">Height (cm)</label>
-                  <input type="number" class="form-control" id="inputHeight" placeholder="e.g., 175" readonly>
+                  <input type="number" class="form-control" name="inputHeight" value="{{ user.height }}" >
                 </div>
-  
+
                 <!-- Weight -->
                 <div class="col-md-6">
                   <label for="inputWeight" class="form-label">Weight (kg)</label>
-                  <input type="number" class="form-control" id="inputWeight" placeholder="e.g., 70" readonly>
+                  <input type="number" class="form-control" name="inputWeight" value="{{user.weight}}" >
                 </div>
 
                 <!-- Preferred Ingredients -->
                 <div class="col-12">
                   <label for="inputPreferredIngredients" class="form-label">Preferred Ingredients</label>
-                  <textarea class="form-control" id="inputPreferredIngredients" placeholder="List of preferred ingredients" rows="2" readonly></textarea>
+                  <textarea class="form-control" name="inputPreferredIngredients" value="" rows="2" >{{ user.preferred_ingredients }}</textarea>
                 </div>
-  
+
                 <!-- Level of Masala -->
                 <div class="col-md-6">
-                   <label for="inputMasalaLevel" class="form-label">Level of Masala</label>
-                   <input type="number" class="form-control" id="inputMasalaLevel" placeholder="e.g., 5" readonly>
+                  <label for="inputMasalaLevel" class="form-label">Level of Masala</label>
+                  <input type="number" class="form-control" name="inputMasalaLevel" value="{{ user.level_of_masala }}" >
                 </div>
-            
+
                 <br>
 
                 <!-- Buttons -->
                 <div class="col-12">
-                  <button type="button" id="btn_edit" class="btn btn-outline-light">Edit</button>
-                  <button type="button" id="btn_save" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" hidden>Save</button>
+                  <button type="button" id="btn_save" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Edit</button>
                 </div>
                 <br>
             </form>
@@ -127,8 +126,8 @@
         Do you want to save the changes?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
-        <button type="button" class="btn btn-outline-success">Understood</button>
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Decline</button>
+        <button type="submit" form="profileform" class="btn btn-outline-success">Confirm</button>
       </div>
     </div>
   </div>
@@ -150,16 +149,6 @@
 
 
 <script>
-  // list of all input fields
-  let elem=['inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel'];
-
-  // Button edit
-  const btn_edit = document.getElementById("btn_edit");
-  const btn_save = document.getElementById("btn_save");
-
-  btn_edit.addEventListener("click", function(){clickbtnedit()});
-  btn_save.addEventListener("click", function(){clickbtnsave()});
-
 
   function clickbtnedit(){
     enabletxtmultiple('inputName', 'inputEmail', 'inputPhoneNo', 'inputAddress', 'inputDateofBirth', 'inputAllergens', 'inputHeight', 'inputWeight', 'inputPreferredIngredients', 'inputMasalaLevel')

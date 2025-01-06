@@ -53,10 +53,7 @@ def execute_query(connection, query):
         cursor.execute(query)
         results = cursor.fetchall()
         cursor.close()
-        
         return results
-        
-        # Close the cursor
         
     except mysql.connector.Error as e:
         print(f"Error executing query: {e}")
@@ -209,20 +206,80 @@ def fetchcustomer_by_customerid(customer_id):
     query = f"SELECT * FROM aesthetic_res.customer where Customer_ID='{customer_id}';"
     if db_connection and db_connection.is_connected():
          result=execute_query(db_connection, query)
-
+    print(result)
     # def __init__(self, customer_id, name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
     if len(result)<1:
         return None
     else:
         i=result[0]
+        print(i)
         
-        return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
+        return Customer(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
 
 
 
+def addmenu(item):
+    # converting pictureslist to text
+    s=""
+    for i in item.pictures:
+        s+=i + ","
+    
+    item.pictures=s[:-1]
+
+    print(item.pictures)
+    print(type(item.pictures))
+
+
+    query = f"INSERT INTO `aesthetic_res`.`menu` (`ItemName`, `Description`, `Picture`, `Ingredients`, `Price`) VALUES ('{item.name}', '{item.description}', '{item.pictures}', '{item.ingredients}', '{item.price}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows added")
+
+
+# x=Menu(0,"name", "desc", "pictre1,pic2", "ing", 45)
+# addmenu(x)
+# print(fetchmenu_byid(6).pictures)
+
+
+# UPDATE `aesthetic_res`.`menu` SET `ItemName` = 'name', `Description` = 'desc', `Picture` = 'picture,pic3', `Ingredients` = 'ing1,ing2', `Price` = '24' WHERE (`ItemID` = '7');
+
+
+def updatemenu(item):
+    # converting pictureslist to text
+    s=""
+    for i in item.pictures:
+        s+=i + ","
+    
+    item.pictures=s[:-1]
+
+    print(item.pictures)
+    print(type(item.pictures))
+
+    print(item.itemcode)
+    # query=f"UPDATE `aesthetic_res`.`menu` SET `ItemName` = '{item.name}', `Description` = '{item.description}', `Picture` = '{item.pictures}', `Ingredients` = '{item.ingredients}', `Price` = '{item.price}' WHERE (`ItemID` = '{item.itemcode}');"
+    query=f"UPDATE `aesthetic_res`.`menu` SET `ItemName` = '{item.name}' WHERE (`ItemID` = '{item.itemcode}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows edited")
 
 
 
+def deleteitem(itemcode):
+    query=f"DELETE FROM `aesthetic_res`.`menu` WHERE (`ItemID` = '{itemcode}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows deleted")
+
+
+def updateprofile(user):
+    query=f"UPDATE `aesthetic_res`.`customer` SET `Name` = '{user.name}', `Birthdate` = '{user.birthdate}', `Phone` = '{user.phone}', `Email` = '{user.address}', `Allergens` = '{user.allergens}', `Height` = '{user.height}', `Weight` = '{user.weight}', `Address` = '{user.address}', `Preferred_Ingredients` = '{user.preferred_ingredients}', `Level_of_Masala` = '{user.level_of_masala}' WHERE (`Customer_ID` = '{user.customer_id}');"
+    if db_connection and db_connection.is_connected():
+         execute_query(db_connection, query)
+         db_connection.commit()
+    print("rows edited")
 
 
 

@@ -237,7 +237,42 @@ def fetchcustomer_by_customerid(customer_id):
         
         return Customer(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
 
+def fetchstaff_by_staffid(staff_id):
+    query = f"SELECT * FROM aesthetic_res.staff WHERE Staff_ID='{staff_id}';"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    if len(result) < 1:
+        return None
+    else:
+        i = result[0]
+        
+        return Staff(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7])
 
+def fetchreservation_by_reservationid(reservation_id):
+    query = f"SELECT * FROM aesthetic_res.reservation WHERE Reservation_ID='{reservation_id}';"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    if len(result) < 1:
+        return None
+    else:
+        i = result[0]
+        
+        return Reservation(i[0], i[1], i[2].date(), i[3], i[4], i[5])
+
+def fetchorder_by_orderid(order_id):
+    query = f"SELECT * FROM aesthetic_res.order_summary WHERE Order_ID='{order_id}';"
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    
+    if len(result) < 1:
+        return None
+    else:
+        i = result[0]
+        items = i[2].split(",")  
+
+        return OrderSummary(order_id=i[0], customer_id=i[1], items=items, total_amount=i[3], order_date=i[4].date(), payment_status=i[5])
 
 def addmenu(item):
     # converting pictureslist to text

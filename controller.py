@@ -2,6 +2,7 @@
 
 # imports
 import model
+import random
 
 
 
@@ -23,6 +24,10 @@ def BMI(weight:int, height:int, ):
 
 
 def authenticate_user(username, password):
+    if username=="admin" and password=="admin":
+        return 'admin'
+
+
     user=model.fetchuser_byusername(username)
     if user!=None:
         if user.password==password:
@@ -42,19 +47,26 @@ def find_matching_items(list1, list2):
     return matching_items
 
 
-def recommendations(customer):
-    allergens=customer.allergens.split(",")
-    
+def recommendeditem(customer):
+    # allergens=customer.allergens.split(", ")
     menu=model.fetchmenu()
-
     recommendedlist=[]
     for item in menu:
-        if item.ingredients not in allergens:
+        if allergic(customer, item) is False:
             recommendedlist.append(item)
+            print(item.name)
 
-    return recommendedlist
+    return random.choice(recommendedlist)
             
-    
+
+def allergic(customer, item):
+    allergens=customer.allergens.split(", ")
+
+    for i in item.ingredients:
+        if i in allergens:
+            return True
+
+    return False
 
 # Function to calculate hours worked
 def calculate_salary(role, hours_worked):

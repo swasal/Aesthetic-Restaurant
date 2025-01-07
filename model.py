@@ -193,7 +193,7 @@ def fetchmenu():
     menulist=[]
     for i in result:
         pic=i[3].split(",")
-        ing=i[4].split(",")
+        ing=i[4].split(", ")
         menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
     return menulist
 
@@ -205,7 +205,7 @@ def fetchmenu_byid(itemid):
     menulist=[]
     for i in result:
         pic=i[3].split(",")
-        ing=i[4].split(",")
+        ing=i[4].split(", ")
         menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
     return menulist[0]
 

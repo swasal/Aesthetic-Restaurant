@@ -11,8 +11,8 @@ from datetime import datetime, timedelta  # Import timedelta along with datetime
 #global
 
 user = None #storing user object when logged in
-admin = True #checks if account is admin
-
+admin = False #checks if account is admin
+staff=False #checks for staff account
 
 
 
@@ -36,13 +36,13 @@ def allowed_file(filename):
 
 @app.route("/")
 def home():
-    global user
-    return render_template("index.html", title="Home", user=user)
+    global user, admin, staff, staff
+    return render_template("index.html", title="Home", user=user, admin=admin, staff=staff)
 
 
 @app.route("/logout")
 def logout():
-    global user
+    global user, admin, staff
     user=None
     admin=False
     return redirect(url_for('login'))
@@ -51,7 +51,7 @@ def logout():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    global user
+    global user, admin, staff
 
     if request.method == 'POST':
         # Fetch form data
@@ -61,17 +61,26 @@ def login():
         # Save user data (in-memory storage for demonstration)
 
         user=controller.authenticate_user(username, password)
-
+        
 
         if user:
+            if user=="admin":
+                admin=True
+                user=None
+                return redirect(url_for('home'))
+            # elif user=="staff":
+            #     staff=True
+            #     return redirect(url_for('profile'))
+            
+            else:
             # Redirect to login page after successful profile creation
-            return redirect(url_for('profile'))
+                return redirect(url_for('profile'))
         else:
             errortext="Incorrect username or password"
-            return render_template('login.html', title="Login", errortext=errortext, user=user)
+            return render_template('login.html', title="Login", errortext=errortext, user=user, admin=admin, staff=staff)
 
     # Render the login form
-    return render_template('login.html', title="Login", user=user)
+    return render_template('login.html', title="Login", user=user, admin=admin, staff=staff)
 
     
 
@@ -123,7 +132,7 @@ def register():
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
-    global user
+    global user, admin, staff
 
     if user:
         
@@ -148,7 +157,7 @@ def profile():
             
 
         else:
-            return render_template("profile.html", title="Profile", user=user)
+            return render_template("profile.html", title="Profile", user=user, admin=admin, staff=staff)
 
 
 
@@ -157,6 +166,8 @@ def profile():
         error="Login error"
         error_text="Please login first then access the profile page."
         return render_template("error.html", title="Error", error=error, error_text=error_text)
+
+
 
 @app.route("/staff_dashboard", methods=["GET", "POST"])
 def staff_dashboard():
@@ -190,12 +201,12 @@ def staff_dashboard():
 
         return redirect(url_for('staff_dashboard'))  # Redirect after saving
 
-    return render_template('staff_dashboard.html', staff_members=filtered_staff_members, current_month=datetime.now().month, current_year=datetime.now().year)
+    return render_template('staff_dashboard.html', staff_members=filtered_staff_members, current_month=datetime.now().month, current_year=datetime.now().year, user=user, admin=admin, staff=staff)
 
 @app.route("/staff_profile/<int:staff_id>")
 def staff_profile(staff_id):
     # Get the staff member by ID
-    staff = next((staff for staff in controller.staff_members if staff['id'] == staff_id), None)
+    # staff = next((staff for staff in controller.staff_members if staff['id'] == staff_id), None)
 
     # If the staff member doesn't exist, redirect to the staff dashboard
     if staff is None:
@@ -205,7 +216,9 @@ def staff_profile(staff_id):
     total_weekly_hours = sum([controller.calculate_hours(staff['hours'][day]['start'], staff['hours'][day]['end']) for day in range(7)
                               if staff['hours'][day]['start'] and staff['hours'][day]['end']])
 
-    return render_template("staff_profile.html", staff=staff, total_weekly_hours=total_weekly_hours)
+    return render_template("staff_profile.html", staff=staff, total_weekly_hours=total_weekly_hours, user=user, admin=admin)
+
+
 
 # Register a custom Jinja filter to calculate time difference in hours
 @app.template_filter('time_diff')
@@ -224,77 +237,78 @@ def time_diff(end_time, start_time):
 
 @app.route('/view_schedule')
 def view_schedule():
-    return render_template('view_schedule.html', staff_members=controller.staff_members)
+    global user, admin, staff
+    return render_template('view_schedule.html', staff_members=controller.staff_members, user=user, admin=admin, staff=staff)
 
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html", title="Contact Us", user=user)
+    global user, admin, staff
+    return render_template("contact.html", title="Contact Us", user=user, admin=admin, staff=staff)
 
+@app.route("/reservation")
+def reservation():
+    global user, admin, staff
+
+    return render_template("reservation.html", title="Reservation", user=user, admin=admin, staff=staff)
 
 
 @app.route('/ordersummary')
 def ordersummary():
-    global user
+    global user, admin, staff
 
     # Sample order data
     ordersummary = [
         ['order date','order id', ['Cake', 'A vanilla cake']],
         ['order date','order id', ['Cake', 'A vanilla cake']],
     ]
-    return render_template('order_summary.html', title="Order Summary", ordersummary=ordersummary, user=user)
+    return render_template('order_summary.html', title="Order Summary", ordersummary=ordersummary, user=user, admin=admin, staff=staff)
 
 
 
-@app.route("/reservation")
-def reservation():
-    global user
-
-    return render_template("reservation.html", title="Reservation", user=user)
-
-
-
-def menupicture(filename):
-    return send_from_directory('menupicture', filename)
+@app.route("/aboutus")
+def aboutus():
+    global user, admin, staff
+    return render_template("aboutus.html", title="Ahout Us", user=user, admin=admin, staff=staff)
 
 
 
 @app.route('/menu', defaults={'item_id': None})
 @app.route('/menu/<item_id>', methods=['GET', 'POST'])
 def menu(item_id):
-    global user
+    global user, admin, staff
 
     if item_id==None: 
         menu=model.fetchmenu()
         if user:
             print(user)
-            recommended=controller.recommendations(user)
-            return render_template('menu.html', title="Menu", menu=menu, recommended=recommended, user=user)
+            recommended=controller.recommendeditem(user)
+            return render_template('menu.html', title="Menu", menu=menu, recommended=recommended, user=user, admin=admin, staff=staff)
         else:
             print("no user")
-            return render_template('menu.html', title="Menu", menu=menu, user=None)
+            return render_template('menu.html', title="Menu", menu=menu, user=None, admin=admin)
     else:
         item=model.fetchmenu_byid(item_id)
+        print(item.ingredients)
+        allergic=None
+        if user:
+            allergic=controller.allergic(user,item)
         if admin:
             if request.method == 'POST':
                 name = request.form.get('inputName')
                 description = request.form.get('description')
                 ingredients = request.form.get('ingredients')
                 price = request.form.get('price')
-
-                print()
                 new_item=model.Menu(item_id, name, description, item.pictures, ingredients, price, )
                 model.updatemenu(new_item)
                 return redirect(url_for('menu'))
-
-        return render_template('menu-description.html', title=f"{item.name}", item=item, user=user)
+        return render_template('menu-description.html', title=f"{item.name}", item=item, allergic=allergic, user=user, admin=admin, staff=staff)
     
-
 
 # @app.route('/menu', defaults={'item_id': None})
 @app.route('/addmenu' , methods=['GET', 'POST'])
 def addmenu():
-    global user, admin
+    global user, admin, staff
 
     if admin:
         if request.method == 'POST':
@@ -329,7 +343,7 @@ def addmenu():
 
 @app.route('/deletemenu/<item_id>')
 def deletemenu(item_id):
-    global user
+    global user, admin, staff
 
     if admin:
         model.deleteitem(item_id)
@@ -345,7 +359,7 @@ def deletemenu(item_id):
 
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 def admin_dashboard():
-    global user
+    global user, admin, staff
     # Local menu list
     menu = [
         ['1', 'Cake', 'A vanilla cake', "A delicious vanilla-flavored cake with frosting"],
@@ -368,7 +382,7 @@ def admin_dashboard():
             item_id = request.form.get('id')
             menu = [item for item in menu if item[0] != item_id]
 
-    return render_template('admin_dashboard.html', menu=menu, user=user)
+    return render_template('admin_dashboard.html', menu=menu, user=user, admin=admin, staff=staff)
 
 
 
@@ -385,7 +399,8 @@ reviews = [
 
 @app.route('/reviews', methods=['GET'])
 def reviews_page():
-    global user
+    global user, admin, staff
+    REVIEWS_PER_PAGE= 12
 
     # Get the current page number from the query parameters
     page = int(request.args.get('page', 1))
@@ -406,10 +421,10 @@ def reviews_page():
     #         'has_more': has_more
     #     })
     
-    return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page, user=user)
+    return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page, user=user, admin=admin, staff=staff)
 
     # Pass all reviews to the template
-    return render_template('reviews.html', title='Reviews', reviews=reviews)
+    return render_template('reviews.html', title='Reviews', reviews=reviews, user=user, admin=admin, staff=staff)
 
 
 

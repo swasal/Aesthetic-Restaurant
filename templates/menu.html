@@ -105,9 +105,11 @@
         </div>
         <!-- Text for Box 1 [top right] -->
         <div class="col-md-6 align-items-center" >
-            <p class="text-light text-opacity-75">Hey {{user.name}}, we thought you would like one of our top picks {{recommended.name}}</p>
-            <p>{{ recommended.description }}</p>
-            
+            <p class="text-light ">Hey {{user.name}}, we thought you would like one of our top picks <a style="color: rgb(225, 116, 65);" href="{{ url_for('menu', item_id=recommended.itemcode) }}">{{recommended.name}}</a></p>
+            <br>
+            <p class="text text-opacit-50">{{ recommended.description }}</p>
+            <br>
+            <button type="button" id="btn_edit" class="btn btn-outline-secondary" onclick="window.location.href='{{ url_for('menu', item_id=recommended.itemcode) }}'" style="text-align: right;" >Check it out</button>
 
         </div>
     </div>

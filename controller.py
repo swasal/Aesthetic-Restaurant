@@ -2,6 +2,7 @@
 
 # imports
 import model
+import random
 
 
 
@@ -23,6 +24,10 @@ def BMI(weight:int, height:int, ):
 
 
 def authenticate_user(username, password):
+    if username=="admin" and password=="admin":
+        return 'admin'
+
+
     user=model.fetchuser_byusername(username)
     if user!=None:
         if user.password==password:
@@ -42,17 +47,22 @@ def find_matching_items(list1, list2):
     return matching_items
 
 
-def recommendations(customer):
-    allergens=customer.allergens.split(",")
-    
+def recommendeditem(customer):
+    allergens=customer.allergens.split(", ")
+    print(allergens)
     menu=model.fetchmenu()
-
     recommendedlist=[]
-    for item in menu:
-        if item.ingredients not in allergens:
-            recommendedlist.append(item)
+    while len(recommendedlist)<2:
+        item=random.choice(menu)
+        if item not in recommendedlist:
 
-    return recommendedlist
+            for i in item.ingredients:
+                if i in allergens:
+                    break
+                recommendedlist.append(item)
+                print(item.name)
+
+    return recommendedlist[0]
             
     
 

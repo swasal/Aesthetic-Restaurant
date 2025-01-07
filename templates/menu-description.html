@@ -8,36 +8,36 @@
         {{ item.name }}| {{ item.itemcode }}
 
     </h3>
+    <!-- admin control -->
+    {% if admin %}
     <br><br><br>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="button" id="btn_edit" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="text-align: right;" >Edit item</button>
         <button type="button" id="btn_edit" class="btn btn-outline-danger" style="text-align: right;" action="" onclick="window.location.href='{{ url_for('deletemenu', item_id=item.itemcode) }}'">Delete item</button>
     </div>
+    {% endif %}
     <br><br>
 
     <!-- MEnu pictures -->
 
-    <div class="container text-center">
+    <div class="container text-center align-items-center">
         <div class="row align-items-center">
-            <div class="col">
-                
-            </div>
-            <div class="col-9">
+            <div class="col-9 align-items-center" style="width: 100%;">
                 
                 <!--actuakl carousel  -->
-                <div id="carouselExample" class="carousel slide">
+                <div id="carouselExample" class="carousel slide align-items-center" style="width: 100%;">
 
-                    <div class="carousel-inner">
+                    <div class="carousel-inner align-items-center" >
         
-                        <div class="carousel-item active">
-                            <img src="{{ url_for('static', filename='menupic/'+item.pictures[0]) }}" class="d-block" style="width: 400px; height: 400px; object-fit: contain;" alt="A picture of {{item.name}}">
+                        <div class="carousel-item active align-items-center" style>
+                            <img src="{{ url_for('static', filename='menupic/'+item.pictures[0]) }}" class="d-block w-100" style="object-fit: contain;" alt="A picture of {{item.name}}">
                             <div class="carousel-caption d-none d-md-block">
                               </div>
                         </div>
         
                         {% for i in item.pictures[1:] %}
-                        <div class="carousel-item">
-                            <img src="{{ url_for('static', filename='menupic/'+i) }}" class="d-block" style="width: 400px; height: 400px; object-fit: contain;" alt="A picture of {{item.name}}">
+                        <div class="carousel-item align-items-center">
+                            <img src="{{ url_for('static', filename='menupic/'+i) }}" class="d-block w-100" alt="A picture of {{item.name}}">
                             <div class="carousel-caption d-none d-md-block">
                               </div>
                         </div>

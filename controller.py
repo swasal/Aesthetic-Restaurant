@@ -48,23 +48,25 @@ def find_matching_items(list1, list2):
 
 
 def recommendeditem(customer):
-    allergens=customer.allergens.split(", ")
-    print(allergens)
+    # allergens=customer.allergens.split(", ")
     menu=model.fetchmenu()
     recommendedlist=[]
-    while len(recommendedlist)<2:
-        item=random.choice(menu)
-        if item not in recommendedlist:
+    for item in menu:
+        if allergic(customer, item) is False:
+            recommendedlist.append(item)
+            print(item.name)
 
-            for i in item.ingredients:
-                if i in allergens:
-                    break
-                recommendedlist.append(item)
-                print(item.name)
-
-    return recommendedlist[0]
+    return random.choice(recommendedlist)
             
-    
+
+def allergic(customer, item):
+    allergens=customer.allergens.split(", ")
+
+    for i in item.ingredients:
+        if i in allergens:
+            return True
+
+    return False
 
 # Function to calculate hours worked
 def calculate_salary(role, hours_worked):

@@ -289,6 +289,10 @@ def menu(item_id):
             return render_template('menu.html', title="Menu", menu=menu, user=None, admin=admin)
     else:
         item=model.fetchmenu_byid(item_id)
+        print(item.ingredients)
+        allergic=None
+        if user:
+            allergic=controller.allergic(user,item)
         if admin:
             if request.method == 'POST':
                 name = request.form.get('inputName')
@@ -298,7 +302,7 @@ def menu(item_id):
                 new_item=model.Menu(item_id, name, description, item.pictures, ingredients, price, )
                 model.updatemenu(new_item)
                 return redirect(url_for('menu'))
-        return render_template('menu-description.html', title=f"{item.name}", item=item, user=user, admin=admin, staff=staff)
+        return render_template('menu-description.html', title=f"{item.name}", item=item, allergic=allergic, user=user, admin=admin, staff=staff)
     
 
 # @app.route('/menu', defaults={'item_id': None})

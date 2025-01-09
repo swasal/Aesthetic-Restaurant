@@ -426,27 +426,27 @@ reviews = [
     # Pass all reviews to the template
 #  return render_template('reviews.html', title='Reviews', reviews=reviews, user=user, admin=admin, staff=staff)
 
-# @app.route('/reviews', methods=['GET', 'POST'])
-# def reviews_page():
-#     if request.method == 'POST':
-#         # Ensure user is logged in
-#         if not user:
-#             error = "Please log in to submit a review."
-#             return render_template('error.html', title="Error", error=error)
+@app.route('/reviews', methods=['GET', 'POST'])
+def reviews_page():
+    if request.method == 'POST':
+        # Ensure user is logged in
+        if not user:
+            error = "Please log in to submit a review."
+            return render_template('error.html', title="Error", error=error)
 
-#         # Get review content
-#         content = request.form.get('review_content')
-#         if not content:
-#             error = "Review content cannot be empty."
-#             return render_template('error.html', title="Error", error=error)
+        # Get review content
+        content = request.form.get('review_content')
+        if not content:
+            error = "Review content cannot be empty."
+            return render_template('error.html', title="Error", error=error)
 
-#         # Submit the review
-#         add_review(user.customer_id, content)
-#         return redirect(url_for('reviews_page'))
+        # Submit the review
+        add_review(user.customer_id, content)
+        return redirect(url_for('reviews_page'))
 
-#     # Fetch and display reviews
-#     all_reviews = fetch_reviews()
-#     return render_template('reviews.html', title="Reviews", reviews=all_reviews, user=user)
+    # Fetch and display reviews
+    all_reviews = fetch_reviews()
+    return render_template('reviews.html', title="Reviews", reviews=all_reviews, user=user)
 
 
 

@@ -80,9 +80,9 @@ def register():
         else:
             return "Invalid file format", 400
 
-        success = add_customer(
+        success = add_user(password, name) and add_customer(
            name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala
-        ) and add_user(password, name)
+        )
 
         if success:
             return redirect(url_for('login'))

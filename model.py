@@ -3,6 +3,7 @@
 #imports
 import mysql.connector
 from mysql.connector import Error
+from datetime import datetime
 
 
 
@@ -17,7 +18,7 @@ def connect_to_database():
             host="localhost",
             port=3306,
             user="root",
-            password="root",
+            password="8604823691011",
             database="aesthetic_res"
         )
         
@@ -43,6 +44,90 @@ def connect_to_database():
 
 # Call the function to connect
 db_connection = connect_to_database()
+
+
+
+
+
+def add_customer(name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala):
+    try:
+        # Read the file content as binary
+        #profile_picture_binary = profile_picture.read()
+
+        # Debug: Print the data being inserted
+        print("Inserting data into the database:")
+        print(f"Username: {name}, Email: {email}, Phone: {phone}, DOB: {birthdate}, Height: {height}, Weight: {weight}")
+
+        # Establish database connection
+        connection = connect_to_database()
+        if connection:
+            cursor = connection.cursor()
+            cursor.execute('''ALTER TABLE customer MODIFY Customer_ID INT NOT NULL AUTO_INCREMENT;''')
+
+            # SQL Query to insert data
+            cursor.execute('''
+                INSERT INTO customer (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
+                VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ''', (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala ))
+
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            print("✅ User data added successfully to both register_user and user tables.")
+            return True
+
+    except mysql.connector.Error as err:
+        print(f"❌ Database Error: {err}")
+        return False
+    except Exception as e:
+        print(f"❌ General Error: {e}")
+        return False
+
+
+
+def add_user(password, name):
+    try:
+        # Establish database connection
+        connection = connect_to_database()
+        if not connection:
+            print("❌ Error: Failed to connect to the database.")
+            return False
+
+        # Validate input data
+        if not password or not name:
+            print("❌ Error: Password and username cannot be empty.")
+            return False
+
+        try:
+            cursor = connection.cursor()
+
+            # SQL query to insert data
+            sql_query = "INSERT INTO user (password, username) VALUES (%s, %s)"
+            cursor.execute(sql_query, (password, name))
+            
+            # Commit changes
+            connection.commit()
+            print("✅ User data added successfully to the database.")
+
+        except mysql.connector.Error as db_err:
+            print(f"❌ Database Error: {db_err}")
+            return False
+
+        finally:
+            # Ensure resources are closed properly
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
+
+        return True
+
+    except Exception as e:
+        print(f"❌ General Error: {e}")
+        return False
+
 
 
 
@@ -189,12 +274,17 @@ class Registeruser:
 def fetchmenu():
     query = "SELECT * FROM aesthetic_res.menu;"
     if db_connection and db_connection.is_connected():
-         result=execute_query(db_connection, query)
-    menulist=[]
+        result = execute_query(db_connection, query)
+        if result is None:
+            return []  # Return an empty list if the result is None
+    else:
+        return []  # Return an empty list if the connection is not established
+
+    menulist = []
     for i in result:
-        pic=i[3].split(",")
-        ing=i[4].split(", ")
-        menulist.append(Menu(i[0],i[1],i[2],pic, ing,i[5]))
+        pic = i[3].split(",")
+        ing = i[4].split(", ")
+        menulist.append(Menu(i[0], i[1], i[2], pic, ing, i[5]))
     return menulist
 
 
@@ -296,8 +386,5 @@ def updateprofile(user):
     print("rows edited")
         
     # return Customer(i[0], i[1], i[2].date(), i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10])
-
-
-
 
 

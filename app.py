@@ -1,11 +1,12 @@
 
 
-#import
+import os
 import controller
-import model
+import model 
+from model import add_customer, add_user
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from datetime import datetime, timedelta  # Import timedelta along with datetime
-
+from werkzeug.utils import secure_filename
 
 
 #global
@@ -38,6 +39,58 @@ def allowed_file(filename):
 def home():
     global user, admin, staff, staff
     return render_template("index.html", title="Home", user=user, admin=admin, staff=staff)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == 'POST':
+        # Fetch form data
+        name = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm-password')
+        phone = request.form.get('phone')
+        birthdate = request.form.get('dob')
+        height = request.form.get('height')
+        weight = request.form.get('weight')
+        level_of_masala = int(request.form.get('level_of_masala', 0))
+        allergens = request.form.get('allergens')
+        address = request.form.get('address')
+        preferred_ingredients = request.form.get('preferred_ingredients')
+
+        # Basic password validation
+        if password != confirm_password:
+            return "Passwords do not match", 400
+
+
+        # Handle file upload for profile picture
+        if 'profile_picture' not in request.files:
+            return "No file part", 400
+        profile_picture = request.files['profile_picture']
+
+        if profile_picture and controller.allowed_file(profile_picture.filename):
+                    # Ensure the upload directory exists
+                    if not os.path.exists(controller.UPLOAD_FOLDER):
+                        os.makedirs(controller.UPLOAD_FOLDER)
+
+                    # Secure the filename and save the file
+                    filename = secure_filename(profile_picture.filename)
+                    file_path = os.path.join(controller.UPLOAD_FOLDER, filename)
+                    profile_picture.save(file_path)
+        else:
+            return "Invalid file format", 400
+
+        success = add_customer(
+           name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala
+        ) and add_user(password, name)
+
+        if success:
+            return redirect(url_for('login'))
+        else:
+            return redirect(url_for('register'))
+
+    # Render the register form
+    return render_template('register.html', title="Register")  # Display the sign-in form
 
 
 @app.route("/logout")
@@ -83,51 +136,6 @@ def login():
     return render_template('login.html', title="Login", user=user, admin=admin, staff=staff)
 
     
-
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == 'POST':
-        # Fetch form data
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm-password')
-        phone = request.form.get('phone')
-        dob = request.form.get('dob')
-        height = request.form.get('height')
-        weight = request.form.get('weight')
-
-        # Basic password validation
-        if password != confirm_password:
-            return "Passwords do not match", 400
-
-
-        # Handle file upload for profile picture
-        if 'profile_picture' not in request.files:
-            return "No file part", 400
-        profile_picture = request.files['profile_picture']
-
-        if profile_picture and controller.allowed_file(profile_picture.filename):
-                    # Ensure the upload directory exists
-                    if not os.path.exists(controller.UPLOAD_FOLDER):
-                        os.makedirs(controller.UPLOAD_FOLDER)
-
-                    # Secure the filename and save the file
-                    filename = secure_filename(profile_picture.filename)
-                    file_path = os.path.join(controller.UPLOAD_FOLDER, filename)
-                    profile_picture.save(file_path)
-        else:
-            return "Invalid file format", 400
-
-        # Redirect to login page after successful profile creation
-        return redirect(url_for('login'))
-
-    # Render the register form
-
-    return render_template('register.html', title="Register")  # Display the sign-in form
-
 
 
 @app.route("/profile", methods=['GET', 'POST'])

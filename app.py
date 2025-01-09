@@ -387,15 +387,7 @@ def admin_dashboard():
 
 
 # Sample reviews data
-reviews = [
-    ['Jean Tang', 'https://via.placeholder.com/50', '可以搭地鐵再轉搭免費公車上山，很方便。看夕陽，看洛杉磯夜景的好地方。', '2 days ago'],
-    ['محمد جواد حبیبی', 'https://via.placeholder.com/50', 'من بیمه عمر خریدم و بعد از 1 سال واقعا احساس ثروتمندی میکنم', '2 days ago'],
-    ['Daniel White', 'https://via.placeholder.com/50', 'Great views of the surrounding area and interesting exhibits. Highly recommend!', '4 days ago'],
-    ['Breanne F', 'https://via.placeholder.com/50', 'Easy hike and not too busy on weekend evenings during early December!', '4 days ago'],
-    ['Hamza Amin', 'https://via.placeholder.com/50', 'Excellent quality of product. Tried honey nuts and they are amazing. Highly recommend.', '5 days ago'],
-    ['Ali Muhammad', 'https://via.placeholder.com/50', 'Great customer service and fantastic ambiance!', '6 days ago'],
-    ['Carol Lloyd', 'https://via.placeholder.com/50', 'The dishes were delightful and the staff was very attentive.', '7 days ago']
-]
+
 
 # @app.route('/reviews', methods=['GET'])
 # def reviews_page():
@@ -426,29 +418,45 @@ reviews = [
     # Pass all reviews to the template
 #  return render_template('reviews.html', title='Reviews', reviews=reviews, user=user, admin=admin, staff=staff)
 
+# @app.route('/reviews', methods=['GET', 'POST'])
+# def reviews_page():
+#     if request.method == 'POST':
+#         # Ensure user is logged in
+#         if not user:
+#             error = "Please log in to submit a review."
+#             return render_template('error.html', title="Error", error=error)
+
+#         # Get review content
+#         content = request.form.get('review_content')
+#         if not content:
+#             error = "Review content cannot be empty."
+#             return render_template('error.html', title="Error", error=error)
+
+#         # Submit the review
+#         add_review(user.customer_id, content)
+#         return redirect(url_for('reviews_page'))
+
+#     # Fetch and display reviews
+#     all_reviews = fetch_reviews()
+#     return render_template('reviews.html', title="Reviews", reviews=all_reviews, user=user)
+
 @app.route('/reviews', methods=['GET', 'POST'])
 def reviews_page():
+    reviews= controller.reviews
     if request.method == 'POST':
-        # Ensure user is logged in
-        if not user:
-            error = "Please log in to submit a review."
-            return render_template('error.html', title="Error", error=error)
+        # Extract data from the form
+        review_content = request.form.get('review_content')
+        name = "Anonymous User"  # Default name for simplicity
+        image_url = "https://via.placeholder.com/50"  # Default profile image
+        date = datetime.now().strftime("%B %d, %Y")
 
-        # Get review content
-        content = request.form.get('review_content')
-        if not content:
-            error = "Review content cannot be empty."
-            return render_template('error.html', title="Error", error=error)
+        # Append the new review to the list
+        reviews.append([name, image_url, review_content, date])
 
-        # Submit the review
-        add_review(user.customer_id, content)
         return redirect(url_for('reviews_page'))
 
-    # Fetch and display reviews
-    all_reviews = fetch_reviews()
-    return render_template('reviews.html', title="Reviews", reviews=all_reviews, user=user)
-
-
+    # Render reviews page
+    return render_template('reviews.html', title="Customer Reviews", reviews=reviews)
 
 
 

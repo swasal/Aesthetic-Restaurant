@@ -5,8 +5,8 @@ import controller
 import model
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from datetime import datetime, timedelta  # Import timedelta along with datetime
-
-
+import os
+from werkzeug.utils import secure_filename
 
 #global
 
@@ -397,35 +397,56 @@ reviews = [
     ['Carol Lloyd', 'https://via.placeholder.com/50', 'The dishes were delightful and the staff was very attentive.', '7 days ago']
 ]
 
-@app.route('/reviews', methods=['GET'])
-def reviews_page():
-    global user, admin, staff
-    REVIEWS_PER_PAGE= 12
+# @app.route('/reviews', methods=['GET'])
+# def reviews_page():
+#     global user, admin, staff
+#     REVIEWS_PER_PAGE= 12
 
-    # Get the current page number from the query parameters
-    page = int(request.args.get('page', 1))
+#     # Get the current page number from the query parameters
+#     page = int(request.args.get('page', 1))
     
-    # Calculate start and end indices for pagination
-    start = (page - 1) * REVIEWS_PER_PAGE
-    end = start + REVIEWS_PER_PAGE
+#     # Calculate start and end indices for pagination
+#     start = (page - 1) * REVIEWS_PER_PAGE
+#     end = start + REVIEWS_PER_PAGE
     
-    # Paginated reviews
-    paginated_reviews = reviews[start:end]
+#     # Paginated reviews
+#     paginated_reviews = reviews[start:end]
     
-    # Determine if there are more reviews to load
-    has_more = end < len(reviews)
+#     # Determine if there are more reviews to load
+#     has_more = end < len(reviews)
     
-    # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # For AJAX requests
-    #     return ({
-    #         'reviews': paginated_reviews,
-    #         'has_more': has_more
-    #     })
+#     # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # For AJAX requests
+#     #     return ({
+#     #         'reviews': paginated_reviews,
+#     #         'has_more': has_more
+#     #     })
     
-    return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page, user=user, admin=admin, staff=staff)
+#     return render_template('reviews.html', title='Reviews', reviews=paginated_reviews, has_more=has_more, page=page, user=user, admin=admin, staff=staff)
 
     # Pass all reviews to the template
-    return render_template('reviews.html', title='Reviews', reviews=reviews, user=user, admin=admin, staff=staff)
+#  return render_template('reviews.html', title='Reviews', reviews=reviews, user=user, admin=admin, staff=staff)
 
+# @app.route('/reviews', methods=['GET', 'POST'])
+# def reviews_page():
+#     if request.method == 'POST':
+#         # Ensure user is logged in
+#         if not user:
+#             error = "Please log in to submit a review."
+#             return render_template('error.html', title="Error", error=error)
+
+#         # Get review content
+#         content = request.form.get('review_content')
+#         if not content:
+#             error = "Review content cannot be empty."
+#             return render_template('error.html', title="Error", error=error)
+
+#         # Submit the review
+#         add_review(user.customer_id, content)
+#         return redirect(url_for('reviews_page'))
+
+#     # Fetch and display reviews
+#     all_reviews = fetch_reviews()
+#     return render_template('reviews.html', title="Reviews", reviews=all_reviews, user=user)
 
 
 

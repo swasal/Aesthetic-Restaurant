@@ -300,4 +300,39 @@ def updateprofile(user):
 
 
 
+def fetch_reviews():
+    """
+    Fetch all reviews from the database, including customer details.
+    """
+    query = """
+        SELECT r.Review_ID, r.Content, r.Date, c.Name AS Customer_Name 
+        FROM aesthetic_res.review r 
+        JOIN aesthetic_res.customer c ON r.Customer_ID = c.Customer_ID 
+        ORDER BY r.Date DESC;
+    """
+    if db_connection and db_connection.is_connected():
+        result = execute_query(db_connection, query)
+    reviews = []
+    for i in result:
+        reviews.append({
+            "review_id": i[0],
+            "content": i[1],
+            "date": i[2],
+            "customer_name": i[3]
+        })
+    return reviews
+
+
+def add_review(customer_id, content):
+    """
+    Add a new review to the database.
+    """
+    query = f"""
+        INSERT INTO `aesthetic_res`.`review` (`Customer_ID`, `Date`, `Content`) 
+        VALUES ('{customer_id}', CURDATE(), '{content}');
+    """
+    if db_connection and db_connection.is_connected():
+        execute_query(db_connection, query)
+        db_connection.commit()
+    print("Review added successfully")
 

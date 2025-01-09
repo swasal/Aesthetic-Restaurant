@@ -47,90 +47,6 @@ db_connection = connect_to_database()
 
 
 
-
-
-def add_customer(name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala):
-    try:
-        # Read the file content as binary
-        #profile_picture_binary = profile_picture.read()
-
-        # Debug: Print the data being inserted
-        print("Inserting data into the database:")
-        print(f"Username: {name}, Email: {email}, Phone: {phone}, DOB: {birthdate}, Height: {height}, Weight: {weight}")
-
-        # Establish database connection
-        connection = connect_to_database()
-        if connection:
-            cursor = connection.cursor()
-            cursor.execute('''ALTER TABLE customer MODIFY Customer_ID INT NOT NULL AUTO_INCREMENT;''')
-
-            # SQL Query to insert data
-            cursor.execute('''
-                INSERT INTO customer (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
-                VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ''', (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala ))
-
-            connection.commit()
-
-            cursor.close()
-            connection.close()
-
-            print("✅ User data added successfully to both register_user and user tables.")
-            return True
-
-    except mysql.connector.Error as err:
-        print(f"❌ Database Error: {err}")
-        return False
-    except Exception as e:
-        print(f"❌ General Error: {e}")
-        return False
-
-
-
-def add_user(password, name):
-    try:
-        # Establish database connection
-        connection = connect_to_database()
-        if not connection:
-            print("❌ Error: Failed to connect to the database.")
-            return False
-
-        # Validate input data
-        if not password or not name:
-            print("❌ Error: Password and username cannot be empty.")
-            return False
-
-        try:
-            cursor = connection.cursor()
-
-            # SQL query to insert data
-            sql_query = "INSERT INTO user (password, username) VALUES (%s, %s)"
-            cursor.execute(sql_query, (password, name))
-            
-            # Commit changes
-            connection.commit()
-            print("✅ User data added successfully to the database.")
-
-        except mysql.connector.Error as db_err:
-            print(f"❌ Database Error: {db_err}")
-            return False
-
-        finally:
-            # Ensure resources are closed properly
-            if cursor:
-                cursor.close()
-            if connection:
-                connection.close()
-
-        return True
-
-    except Exception as e:
-        print(f"❌ General Error: {e}")
-        return False
-
-
-
-
 def execute_query(connection, query):
     try:
         cursor = connection.cursor()
@@ -267,6 +183,94 @@ class Registeruser:
             # 'weight': weight,
             # to the database
 
+
+
+def add_user(password, name):
+    try:
+        # Establish database connection
+        connection = connect_to_database()
+        if not connection:
+            return False
+
+        # Validate input data
+        if not password or not name:
+            return False
+
+        try:
+            cursor = connection.cursor()
+
+            # SQL query to insert data
+            sql_query = "INSERT INTO user (password, username) VALUES (%s, %s)"
+            cursor.execute(sql_query, (password, name))
+            
+            # Commit changes
+            connection.commit()
+
+        except mysql.connector.Error as db_err:
+            return False
+
+        finally:
+            # to ensure resources are closed properly
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
+
+        return True
+
+    except Exception as e:
+        print(f"❌ General Error: {e}")
+        return False
+
+
+
+
+
+
+def add_customer(name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala):
+    
+    
+    try:
+  
+    # Establish database connection
+        connection = connect_to_database()
+        if connection:
+            cursor = connection.cursor()
+
+            # Check if the foreign key constraint exists
+            cursor.execute('''
+                SELECT CONSTRAINT_NAME 
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                WHERE TABLE_NAME = 'customer' AND CONSTRAINT_NAME = 'customer_ibfk_1';
+            ''')
+            result = cursor.fetchone()
+
+            if result:
+                # Drop the foreign key constraint
+                cursor.execute('ALTER TABLE customer DROP FOREIGN KEY customer_ibfk_1;')
+
+            # Modify `Customer_ID` to auto-increment if needed
+            cursor.execute('''
+                ALTER TABLE customer MODIFY Customer_ID INT NOT NULL AUTO_INCREMENT;
+            ''')
+
+            # Insert the new customer data
+            cursor.execute('''
+                INSERT INTO customer (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ''', (name, birthdate, phone, email, allergens, height, weight, address, preferred_ingredients, level_of_masala))
+
+            connection.commit()
+            cursor.close()
+            connection.close()
+            return True
+
+    except mysql.connector.Error as err:
+        print(f"❌ Database Error: {err}")
+        return False
+    except Exception as e:
+        print(f"❌ General Error: {e}")
+        return False
 
 
 

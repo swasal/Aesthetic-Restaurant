@@ -115,15 +115,16 @@
             </div>
         </div>
         <div class="text-center mt-4">
-            <a href="/reviews" class="btn btn-dark">Read More Reviews</a>
+            <a href="{{ url_for('reviews_page') }}" class="btn btn-dark">Read More Reviews</a>
         </div>
     </div>
 </section>
 <!-- Leave Feedback Section -->
+{% if user %}
 <section id="leave-feedback" class="py-5 bg-dark">
     <div class="container">
         <h2 class="text-center mb-4">Leave Us a Feedback</h2>
-        <form action="{{ url_for('reviews_page') }}" method="post" class="mx-auto" style="max-width: 400px;"></form>
+        <form action="{{ url_for('reviews_page') }}" method="post" class="mx-auto" style="max-width: 4dvh;"></form>
             <!-- Review Content -->
             <div class="mb-3">
                 <label for="review-content" class="form-label">Your Feedback</label>
@@ -141,7 +142,7 @@
         </form>
     </div>
 </section>
-
+{% endif %}
 <section id="our-journey" class="py-5 ">
     <div class="container">
         <h2 class="text-center mb-4">Our Journey</h2>
